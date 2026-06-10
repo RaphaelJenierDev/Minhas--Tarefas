@@ -2,14 +2,24 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Jenier - Painel de Produtividade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <title>Jenier Soluções - Painel de Produtividade</title>
 </head>
 <body>
+
+    <div class="logo-container">
+        <img src="img/sua-logo.png" alt="Logotipo Jenier Soluções" class="brand-logo">
+    </div>
+
     <div class="dashboard">
-        <header class="clock-header">
+        <header class="clock-panel">
             <span id="relogio">00:00:00</span>
-            <span id="periodo">AM</span>
+            <div class="period-box">
+                <span id="periodo">AM</span>
+                <div class="pulse"></div>
+            </div>
         </header>
 
         <section class="task-card">
@@ -26,6 +36,7 @@
             <ul class="list-tasks"></ul>
         </section>
     </div>
+
     <script src="scripts.js"></script>
 </body>
 </html>
