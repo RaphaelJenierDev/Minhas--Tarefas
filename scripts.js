@@ -1,21 +1,25 @@
-// --- 🧭 ENGINE DE ALTA PRECISÃO POR VOLUMETRIA (SISTEMA DE PONTUAÇÃO) ---
+// --- 🧭 ENGINE CORRIGIDA: DINAMISMO EXECUTIVO E ALTA PRECISÃO ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
     let totalAtivas = 0;
     
-    // Em vez de true/false, usamos contadores para medir a massa de tarefas do dia
-    let pontuacao = {
-        familia: 0,
-        superao: 0,
-        trabalho: 0,
-        estudo: 0,
-        principios: 0,
-        saude: 0
+    // Interruptores de Contexto (Garantem que nada suma do mapa)
+    let detectou = {
+        familia: false,
+        superao: false,
+        trabalho: false,
+        estudo: false,
+        principios: false,
+        saude: false
     };
 
-    // REGEX ULTRA SENSÍVEIS
+    // Contadores para volume (usados para critério de desempate dinâmico)
+    let contagemPrincipios = 0;
+    let contagemTrabalho = 0;
+
+    // REGEX ULTRA SENSÍVEIS (Ajustadas para o seu vocabulário real)
     const regexFamilia = /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i;
     const regexSuperao = /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i;
     const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i;
@@ -23,22 +27,25 @@ function atualizarConsultor() {
     const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando|oração|madrugada)/i;
     const regexSaude = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i;
 
-    // Escaneamento acumulando pontos para cada pilar detectado
+    // Escaneamento do Backlog
     minhaListaDeItens.forEach(item => {
         if (!item.concluida) {
             totalAtivas++;
             const texto = item.tarefa;
             
-            if (regexFamilia.test(texto)) pontuacao.familia++;
-            if (regexSuperao.test(texto)) pontuacao.superao++;
-            if (regexTrabalho.test(texto)) pontuacao.trabalho++;
-            if (regexEstudo.test(texto)) pontuacao.estudo++;
-            if (regexPrincipios.test(texto)) pontuacao.principios++;
-            if (regexSaude.test(texto)) pontuacao.saude++;
+            if (regexFamilia.test(texto)) detectou.familia = true;
+            if (regexSuperao.test(texto)) detectou.superao = true;
+            if (regexTrabalho.test(texto)) detectou.trabalho = true;
+            if (regexEstudo.test(texto)) detectou.estudo = true;
+            if (regexPrincipios.test(texto)) {
+                detectou.principios = true;
+                contagemPrincipios++; // Conta quantas da igreja estão ativas
+            }
+            if (regexSaude.test(texto)) detectou.saude = true;
         }
     });
 
-    // BANCO DE DADOS DE SABEDORIA MATRIX
+    // BANCO DE DADOS DE SABEDORIA MATRIX (Com todos os versículos blindados)
     const MatrizSabedoria = {
         quadroLimpo: {
             titulo: "🎯 SPRINT LOG: Backlog Zerado",
@@ -86,7 +93,7 @@ function atualizarConsultor() {
             titulo: "🛡️ COMPASS REALIGNMENT: Alinhamento de Bússola",
             conselho: "<strong>Direcionamento Executivo:</strong> A atmosfera de oração, comunhão e busca espiritual domina a sua esteira agora. Desconecte a mente dos prazos de código e do trânsito. Deixar o peso do mercado do lado de fora do templo e orar renova as suas forças estruturais.",
             versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias; correm e não ficam exaustos, andam e não se cansam.'",
-            borda: "#9d4edd77", textoCor: "#c8b6ff" // Roxo Espiritual
+            borda: "#9d4edd77", textoCor: "#c8b6ff"
         },
         saudeRotina: {
             titulo: "🍏 LOGISTICS & HARDWARE: Proteção do Ativo",
@@ -95,14 +102,14 @@ function atualizarConsultor() {
             borda: "#ffb70377", textoCor: "#ffb703"
         },
         geral: {
-            titulo: "Compass: Balanceamento de Backlog",
-            conselho: "<strong>Direcionamento Executivo:</strong> Você está cruzando múltiplos pilares hoje. Para não quebrar o ritmo, siga o framework Scrum à risca: ordene por prioridade e execute rigorosamente uma por uma, blindando sua mente contra distrações.",
+            titulo: "🧭 BACKLOG OVERVIEW: Ordenação de Fluxo",
+            conselho: "<strong>Direcionamento Executivo:</strong> Múltiplas demandas na fila. Mantenha a disciplina de focar em uma tarefa por vez para evitar perda de desempenho por alternância de contexto (Context Switching). Siga a ordem do seu planejamento.",
             versiculo: "<strong>Salmos 37:5</strong> - 'Entregue o seu caminho ao Senhor; confie nele, e ele agirá.'",
             borda: "#ffffff22", textoCor: "#ffffff"
         }
     };
 
-    // LOGICA INTELIGENTE DE SELEÇÃO POR MAIOR PONTUAÇÃO (VOLUMETRIA)
+    // LÓGICA DE DECISÃO SELECIONADA (Dinâmica, Fluida e Sem Travamento)
     let selecionado = MatrizSabedoria.geral;
     
     if (minhaListaDeItens.length === 0) {
@@ -110,32 +117,21 @@ function atualizarConsultor() {
     } else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
         selecionado = MatrizSabedoria.sucessoTotal;
     } else {
-        // Encontra qual pilar recebeu mais pontos no escaneamento
-        let maiorContexto = "geral";
-        let maiorPontuacao = 0;
-
-        for (const [contexto, pontos] of Object.entries(pontuacao)) {
-            if (pontos > maiorPontuacao) {
-                maiorPontuacao = pontos;
-                maiorContexto = contexto;
-            } else if (pontos === maiorPontuacao && pontos > 0) {
-                // Caso haja empate de pontos, definimos pesos de importância de foco de vida
-                const pesos = { familia: 6, superao: 5, principios: 4, trabalho: 3, estudo: 2, saude: 1, geral: 0 };
-                if (pesos[contexto] > pesos[maiorContexto]) {
-                    maiorContexto = contexto;
-                }
-            }
+        // Se a volumetria da igreja for esmagadora (como no seu exemplo de 4 tarefas), ela assume o controle
+        if (detectou.principios && contagemPrincipios >= 2) {
+            selecionado = MatrizSabedoria.principios;
         }
-
-        // Casos especiais de combinação antes de bater o martelo
-        if (pontuacao.trabalho > 0 && pontuacao.estudo > 0 && maiorContexto !== "familia" && maiorContexto !== "principios") {
-            selecionado = MatrizSabedoria.multiTrabalhoEstudo;
-        } else {
-            selecionado = MatrizSabedoria[maiorContexto] || MatrizSabedoria.geral;
-        }
+        // Caso contrário, seguimos a hierarquia de proteção e foco
+        else if (detectou.familia) selecionado = MatrizSabedoria.familia;
+        else if (detectou.superao) selecionado = MatrizSabedoria.superao;
+        else if (detectou.trabalho && detectou.estudo) usado = MatrizSabedoria.multiTrabalhoEstudo;
+        else if (detectou.trabalho) selecionado = MatrizSabedoria.trabalho;
+        else if (detectou.estudo) selecionado = MatrizSabedoria.estudo;
+        else if (detectou.principios) selecionado = MatrizSabedoria.principios;
+        else if (detectou.saude) selecionado = MatrizSabedoria.saudeRotina;
     }
 
-    // Renderização final com a estrutura atualizada
+    // Renderização com o retorno garantido do bloco de versículo
     feedbackText.innerHTML = `
         <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
         <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
