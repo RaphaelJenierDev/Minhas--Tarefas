@@ -54,101 +54,118 @@ function recarregarTarefas() {
     mostrarTarefas()
 }
 
-// --- 🧠 ENGINE SUPREMA: CONSULTOR EXECUTIVO, PSICOLÓGICO E DE PRINCÍPIOS ---
+// --- 🧭 ENGINE SCRUM-MASTER MASTERIZADA: ALTA PRECISÃO CORPORATIVA ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
-    let temTrabalho = false;
-    let temEstudo = false;
-    let temPrincipios = false;
-    let temSaudeOuRotina = false;
     let totalAtivas = 0;
+    let contextoDetectado = "geral";
 
-    // REGEX: Detecção avançada de intenção
-    const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar)/i;
-    const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|estydar)/i;
-    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh)/i;
+    // REGEX CORPORATIVA DE ALTA PRECISÃO (Terminologias de Scrum, TI e Consultoria)
+    const regexFamiliaAfeto = /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita)/i;
+    const regexSuperacao = /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão])/i;
+    
+    // Filtro estrito para TRABALHO/AGILE (Sprint, Backlog, ClickUp, Proposta, Reunião, Faturamento)
+    const regexTrabalhoScrum = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i;
+    
+    // Filtro estrito para ESTUDO/RESEARCH (Cursor, Code, Labs, Refatorar, Estudar, Bootcamp, Configurar, Vibe)
+    const regexEstudoTech = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp)/i;
+    
+    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus)/i;
     const regexSaudeRotina = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida)/i;
 
+    // Escaneamento hierárquico com base no peso ágil de entrega
     minhaListaDeItens.forEach(item => {
         if (!item.concluida) {
             totalAtivas++;
             const texto = item.tarefa;
             
-            if (regexTrabalho.test(texto)) temTrabalho = true;
-            else if (regexEstudo.test(texto)) temEstudo = true;
-            else if (regexPrincipios.test(texto)) temPrincipios = true;
-            else if (regexSaudeRotina.test(texto)) temSaudeOuRotina = true;
+            // Ordem de prioridade baseada na Matriz de Impacto e Governança
+            if (regexFamiliaAfeto.test(texto)) contextoDetectado = "familia";
+            else if (regexSuperacao.test(texto) && contextoDetectado !== "familia") contextoDetectado = "superao";
+            else if (regexTrabalhoScrum.test(texto) && !["familia", "superao"].includes(contextoDetectado)) contextoDetectado = "trabalho";
+            else if (regexEstudoTech.test(texto) && !["familia", "superao", "trabalho"].includes(contextoDetectado)) contextoDetectado = "estudo";
+            else if (regexPrincipios.test(texto) && !["familia", "superao", "trabalho", "estudo"].includes(contextoDetectado)) contextoDetectado = "principios";
+            else if (regexSaudeRotina.test(texto) && contextoDetectado === "geral") contextoDetectado = "saudeRotina";
         }
     });
 
-    // BANCO DE DADOS DE SABEDORIA (Psicologia Aplicada + Fundamento da Fé)
-    const BaseSabedoria = {
+    // MATRIZ DE CONSULTORIA AGIL (Casamento de Gestão Ágil, Psicologia e Princípios)
+    const MatrizSabedoria = {
         quadroLimpo: {
-            titulo: "🎯 Esteira Pronta",
-            texto: "Sua lista está limpa. Psicologicamente, a ausência de microtarefas reduz a ansiedade de curto prazo. Aproveite essa clareza mental para projetar estrategicamente seus próximos passos comerciais.",
+            titulo: "🎯 SPRINT LOG: Backlog Zerado",
+            conselho: "Seu quadro está limpo. No framework Scrum, isso significa que a meta da Sprint foi atingida com sucesso. Psicologicamente, use este vácuo operacional para fazer o planejamento macro do seu próximo ciclo de faturamento na Jenier.",
             versiculo: "<strong>Provérbios 16:3</strong> - 'Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos.'",
             borda: "#00d4ff33", textoCor: "#00d4ff"
         },
         sucessoTotal: {
-            titulo: "🏆 Vitória de Execução",
-            texto: "Todas as metas do bloco foram batidas. Concluir tarefas libera picos de dopamina saudáveis, gerando sensação de competência. É hora de desacelerar a mente, celebrar o progresso e proteger seu descanso.",
+            titulo: "🏆 RETROSPECTIVE: Sprint Concluída",
+            conselho: "Todas as metas da esteira foram entregues. Celebrar a conclusão dos itens do backlog reforça o comportamento de alta performance e gera tração real. Desligue o ecossistema de desenvolvimento e descanse a mente.",
             versiculo: "<strong>Eclesiastes 3:13</strong> - 'Descobri também que a melhor coisa que o homem pode fazer é comer, beber e desfrutar do resultado do seu trabalho duro. Isso é um presente de Deus.'",
             borda: "#06d6a055", textoCor: "#06d6a0"
         },
+        familia: {
+            titulo: "❤️ BLOCKER REMOVED: Conexão Vital",
+            conselho: "Nenhum resultado profissional justifica o sacrifício da base. Estar com sua mãe e nutrir as relações familiares protege a sua saúde mental de longo prazo. Deixe as ferramentas de gerenciamento de lado e viva o momento presente com foco total.",
+            versiculo: "<strong>Provérbios 23:22b</strong> - '...e não despreze a sua mãe quando ela envelhecer.'",
+            borda: "#ff4d6d77", textoCor: "#ff758f"
+        },
+        superao: {
+            titulo: "⚡ CRISIS MANAGEMENT: Resiliência Ativa",
+            conselho: "Gargalos e impedimentos complexos aparecem em qualquer projeto de tecnologia. A postura de um consultor sênior é isolar as variáveis emocionais e focar exclusivamente na solução do problema mais imediato. Você tem capacidade técnica e resiliência.",
+            versiculo: "<strong>Josué 1:9</strong> - 'Não fui eu que ordenei a você? Seja forte e corajoso! Não se apavore nem desanime, pois o Senhor, o seu Deus, estará com você por onde você andar.'",
+            borda: "#ffeed155", textoCor: "#ffd166"
+        },
         trabalho: {
-            titulo: "💼 Operação & Faturamento",
-            texto: "Metas de negócio ativas exigem alta energia analítica. A ansiedade por fechar contratos ou entregar projetos deve ser canalizada em foco operacional na execução. Evite focar no acúmulo de tarefas e controle o que está nas suas mãos.",
-            versiculo: "<strong>Colossenses 3:23</strong> - 'Tudo o que fizerem, façam de todo o coração, como para o Senhor, e não para os homens.'",
+            titulo: "💼 SPRINT ACTIVE: Foco no Faturamento",
+            conselho: "Você possui itens de alta prioridade na sua esteira de produção corporativa (Sprint Ativa). Como um estrategista, execute cada entrega focando no valor final entregue ao cliente, minimizando o desperdício de tempo e documentando os processos no ClickUp.",
+            versiculo: "<strong>Provérbios 22:29</strong> - 'Você já viu um homem talentoso no seu trabalho? Ele servirá diante de reis; não servirá diante de homens obscuros.'",
             borda: "#00d4ffaa", textoCor: "#00d4ff"
         },
         estudo: {
-            titulo: "🚀 Construção de Know-How",
-            texto: "Aprender algo novo gera a sensação temporária de desconforto porque o cérebro está criando novas conexões. Não caia na armadilha da pressa; a consistência diária vence a intensidade. Documente o progresso.",
-            versiculo: "<strong>Provérbios 1:5</strong> - 'O sábio escute e aumente o seu saber, e o homem de entendimento adquira habilidade.'",
+            titulo: "🚀 R&D LABS: Engenharia e Conhecimento",
+            conselho: "Bloco focado em Pesquisa e Desenvolvimento (R&D). A engenharia de software exige profundidade analítica. Não caia no erro de pular etapas; execute o código no Cursor, valide na arquitetura e monte uma POC (Prova de Conceito) real para o seu portfólio.",
+            versiculo: "<strong>Provérbios 10:14</strong> - 'Os sábios acumulam conhecimento, mas a boca do insensato é um convite à ruína.'",
             borda: "#06d6a077", textoCor: "#06d6a0"
         },
         principios: {
-            titulo: "🛡️ Alinhamento de Base",
-            texto: "A rotina na comunidade e na igreja desacelera o ritmo acelerado do mercado. Psicologicamente, o pertencimento e o foco no coletivo renovam a inteligência emocional e blindam a mente contra pressões externas.",
-            versiculo: "<strong>Salmos 133:1</strong> - 'Como é bom e agradável quando os irmãos convivem em união!'",
+            titulo: "🛡️ COMPASS REALIGNMENT: Alinhamento de Bússola",
+            conselho: "Momento de desconectar do fluxo ágil de produção para recalibrar a sua governança espiritual. O ambiente de comunhão e oração atua como um regulador mental essencial, limpando os excessos e blindando o seu propósito de vida.",
+            versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias; correm e não ficam exaustos, andam e não se cansam.'",
             borda: "#9d4edd77", textoCor: "#c8b6ff"
         },
         saudeRotina: {
-            titulo: "🍏 Logística e Integridade",
-            texto: "O cansaço físico das rotinas operacionais ou de trânsito afeta diretamente o poder de tomada de decisão. Trate o seu corpo como o principal ativo da sua empresa. Se o corpo falhar, a operação para.",
-            versiculo: "<strong>1 Coríntios 6:19</strong> - 'Acaso não sabem que o corpo de vocês é santuário do Espírito Santo...?'",
+            titulo: "🍏 LOGISTICS & HARDWARE: Proteção do Ativo",
+            conselho: "As tarefas operacionais de logística exigem gerenciamento rigoroso de riscos. O seu corpo é a infraestrutura física onde os seus softwares rodam. Mantenha-se hidratado, faça pausas adequadas e não comprometa a sua segurança por pressa de entrega.",
+            versiculo: "<strong>Provérbios 4:23</strong> - 'Acima de tudo que se deve guardar, guarde o seu coração, pois dele procedem as fontes da vida.'",
             borda: "#ffb70377", textoCor: "#ffb703"
         },
         geral: {
-            titulo: "🧭 Direcionamento Geral",
-            texto: "Tarefas mistas exigem alternância de foco. Faça uma coisa por vez para evitar a sobrecarga mental de alternância de contexto (context-switching). Proteja suas horas de recarga.",
-            versiculo: "<strong>Filipenses 4:6</strong> - 'Não andem ansiosos por coisa alguma, mas em tudo apresentem os seus pedidos a Deus.'",
+            titulo: "🧭 BACKLOG OVERVIEW: Ordenação de Fluxo",
+            conselho: "Múltiplas demandas na fila. Mantenha a disciplina de focar em uma tarefa por vez para evitar perda de desempenho por alternância de contexto (Context Switching). Siga a ordem do seu planejamento.",
+            versiculo: "<strong>Salmos 37:5</strong> - 'Entregue o seu caminho ao Senhor; confie nele, e ele agirá.'",
             borda: "#ffffff22", textoCor: "#ffffff"
         }
     };
 
-    // SELEÇÃO DE CONTEXTO
-    let contexto = BaseSabedoria.geral;
+    // Seleção de contexto refinada pela engine ágil
+    let selecionado = MatrizSabedoria.geral;
     
-    if (minhaListaDeItens.length === 0) contexto = BaseSabedoria.quadroLimpo;
-    else if (totalAtivas === 0 && minhaListaDeItens.length > 0) contexto = BaseSabedoria.sucessoTotal;
-    else if (temTrabalho) contexto = BaseSabedoria.trabalho;
-    else if (temEstudo) contexto = BaseSabedoria.estudo;
-    else if (temPrincipios) contexto = BaseSabedoria.principios;
-    else if (temSaudeOuRotina) contexto = BaseSabedoria.saudeRotina;
+    if (minhaListaDeItens.length === 0) selecionado = MatrizSabedoria.quadroLimpo;
+    else if (totalAtivas === 0 && minhaListaDeItens.length > 0) selecionado = MatrizSabedoria.sucessoTotal;
+    else selecionado = MatrizSabedoria[contextoDetectado];
 
-    // RENDERIZAÇÃO DA INTELIGÊNCIA NA TELA
+    // Renderização com tags semânticas e hierarquia de design corporativo
     feedbackText.innerHTML = `
-        <span style="font-weight: 700; color: ${contexto.textoCor}; display: block; margin-bottom: 5px;">${contexto.titulo}</span>
-        <span style="display: block; margin-bottom: 10px; color: #e0e0e0; font-style: normal;">${contexto.texto}</span>
-        <hr style="border: 0; border-top: 1px dashed ${contexto.borda}; margin: 8px 0;">
-        <span style="display: block; color: #b3f0ff; font-size: 12px; line-height: 1.4; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px;">
-            🙏 ${contexto.versiculo}
+        <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
+        <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
+        <hr style="border: 0; border-top: 1px dashed ${selecionado.borda}; margin: 10px 0;">
+        <span style="display: block; color: #d8f3dc; font-size: 12.5px; line-height: 1.4; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border-left: 3px solid ${selecionado.textoCor}; font-weight: 500;">
+            🙏 ${selecionado.versiculo}
         </span>
     `;
-    feedbackText.parentElement.style.borderColor = contexto.borda;
+    feedbackText.parentElement.style.borderColor = selecionado.borda;
 }
 
 // --- LÓGICA DO RELÓGIO LED INTELIGENTE E DATA ---
@@ -170,7 +187,7 @@ function gerenciarPainelSuperior() {
         const diaSemana = diasSemana[agora.getDay()]
         const dia = String(agora.getDate()).padStart(2, '0')
         const mes = meses[agora.getMonth()]
-        const ano = agora.getFullYear()
+        const ano = azureano = agora.getFullYear()
         
         dataElemento.textContent = `${diaSemana}, ${dia} ${mes} ${ano}`
     }
