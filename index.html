@@ -2,43 +2,30 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <title>Jenier Soluções - Painel</title>
+    <title>Jenier - Painel de Produtividade</title>
 </head>
 <body>
-
-<div class="dashboard">
-    <header class="clock-header">
-        <div class="clock-box">
+    <div class="dashboard">
+        <header class="clock-header">
             <span id="relogio">00:00:00</span>
-            <div class="period-box">
-                <span id="periodo">AM</span>
-                <div class="pulse"></div>
+            <span id="periodo">AM</span>
+        </header>
+
+        <section class="task-card">
+            <div class="input-area">
+                <input type="text" class="input-task" placeholder="O que tenho que fazer...">
+                <button class="button-add-task">Adicionar</button>
             </div>
-        </div>
-    </header>
 
-    <section class="task-card">
-        <div class="photo-wrapper">
-            <img src="./img/equipe-jenier.png" alt="Equipe Jenier" class="photo-team">
-        </div>
+            <div class="filters">
+                <button onclick="filtrarTarefas('todas')">Todas</button>
+                <button onclick="filtrarTarefas('pendentes')">Pendentes</button>
+            </div>
 
-        <div class="input-area">
-            <input type="text" class="input-task" placeholder="O que tenho que fazer...">
-            <button class="button-add-task">Adicionar</button>
-        </div>
-
-        <div class="filters">
-            <button onclick="filtrarTarefas('todas')">Todas</button>
-            <button onclick="filtrarTarefas('pendentes')">Pendentes</button>
-        </div>
-
-        <ul class="list-tasks"></ul>
-    </section>
-</div>
-
-<script src="scripts.js"></script>
+            <ul class="list-tasks"></ul>
+        </section>
+    </div>
+    <script src="scripts.js"></script>
 </body>
 </html>
