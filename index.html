@@ -1,36 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <title>JenierSolucoes - Todo list</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>JenierSolucoes - Todo List</title>
 </head>
-
 <body>
+
     <div class="dashboard-wrapper">
         
-        <div class="header-dashboard">
-            <div id="saudacao">Carregando...</div>
-            <div class="clock-panel">
-                <span id="relogio">00:00:00</span>
+        <div class="coluna-esquerda">
+            
+            <div class="header-dashboard">
+                <div class="logo-jenier">
+                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="16" cy="13" rx="7" ry="7.5" stroke="#00d4ff" stroke-width="1.8" fill="none"/>
+                        <line x1="13" y1="20.5" x2="19" y2="20.5" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="13.5" y1="22.5" x2="18.5" y2="22.5" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="16" y1="5" x2="16" y2="3" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="22" y1="7" x2="23.5" y2="5.5" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="10" y1="7" x2="8.5" y2="5.5" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="24" y1="13" x2="26" y2="13" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="8" y1="13" x2="6" y2="13" stroke="#00d4ff" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                    <span>JENIER <em>SERVICES</em></span>
+                </div>
+
+                <div id="saudacao">Carregando...</div>
+                
+                <div class="clock-panel">
+                    <span id="relogio">00:00:00</span>
+                </div>
+                <div class="data-display" id="data-display">--/--/----</div>
             </div>
+
+            <div class="container">
+                <div class="input-wrapper">
+                    <input class="input-task" placeholder="O que tenho que fazer...">
+                    <button id="btn-mic" title="Falar tarefa">🎤</button>
+                    <button class="button-add-task">Adicionar</button>
+                </div>
+                <ul class="list-tasks"></ul>
+            </div>
+
         </div>
 
-        <div class="container">
-            <div class="input-wrapper">
-                <input class="input-task" placeholder="O que tenho que fazer...">
-                <button id="btn-mic" title="Falar tarefa">🎤</button>
-                <button class="button-add-task">Adicionar</button>
-            </div>
+        <div class="coluna-direita">
+            <div class="personagens-container">
+                
+                <div class="personagens-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#63d8fc" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                    <span>ESPAÇO RESERVADO<br>PARA OS PERSONAGENS</span>
+                </div>
 
-            <ul class="list-tasks">
-                </ul>
+            </div>
         </div>
 
     </div>
