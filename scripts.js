@@ -60,6 +60,39 @@ function recarregarTarefas() {
 
   mostrarTarefas()
 }
+// --- Lógica do Relógio ---
+function atualizarRelogio() {
+    const agora = new Date();
+    document.getElementById('relogio').textContent = agora.toLocaleTimeString();
+}
+setInterval(atualizarRelogio, 1000);
+atualizarRelogio();
 
+// --- Lógica do Microfone (Web Speech API) ---
+const btnMic = document.getElementById('btn-mic');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'pt-BR';
+
+    btnMic.addEventListener('click', () => {
+        recognition.start();
+        btnMic.style.backgroundColor = 'red'; // Feedback visual de gravação
+    });
+
+    recognition.onresult = (event) => {
+        const transcricao = event.results[0][0].transcript;
+        input.value = transcricao;
+        btnMic.style.backgroundColor = '#003329';
+    };
+
+    recognition.onend = () => {
+        btnMic.style.backgroundColor = '#003329';
+    };
+} else {
+    btnMic.style.display = 'none'; // Esconde se o navegador não suportar
+    alert("Seu navegador não suporta reconhecimento de voz.");
+}
 recarregarTarefas()
 button.addEventListener('click', adicionarNovaTarefa)
