@@ -1,14 +1,64 @@
-// ============================================================
-// 🧠 WEIGHTED SCORING ENGINE — atualizarConsultor v2.0
-// Engenheiro: Refactoring por Claude (Anthropic)
-// Diretriz: Anti-blocking, volumetria real, sem if/else linear
-// ============================================================
+const button = document.querySelector('.button-add-task')
+const input = document.querySelector('.input-task')
+const listaCompleta = document.querySelector('.list-tasks')
 
+let minhaListaDeItens = []
+
+// --- LÓGICA DE GERENCIAMENTO DE TAREFAS ---
+function adicionarNovaTarefa() {
+    if (input.value.trim() === '') return; 
+    
+    minhaListaDeItens.push({
+        tarefa: input.value,
+        concluida: false,
+    })
+    
+    input.value = ''
+    mostrarTarefas()
+}
+
+function mostrarTarefas() {
+    let novaLi = ''
+    
+    minhaListaDeItens.forEach((item, posicao) => {
+        novaLi += `
+            <li class="task ${item.concluida ? 'done' : ''}">
+                <img src="./img/checked.png" alt="check-na-tarefa" onclick="concluirTarefa(${posicao})">
+                <p>${item.tarefa}</p>
+                <img src="./img/trash.png" alt="tarefa-para-o-lixo" onclick="deletarItem(${posicao})">
+            </li>
+        `
+    })
+    
+    listaCompleta.innerHTML = novaLi
+    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
+    
+    atualizarConsultor()
+}
+
+function concluirTarefa(posicao) {
+    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida
+    mostrarTarefas()
+}
+
+function deletarItem(posicao) {
+    minhaListaDeItens.splice(posicao, 1)
+    mostrarTarefas()
+}
+
+function recarregarTarefas() {
+    const tarefasDoLocalStorage = localStorage.getItem('lista')
+    if (tarefasDoLocalStorage) {
+        minhaListaDeItens = JSON.parse(tarefasDoLocalStorage)
+    }
+    mostrarTarefas()
+}
+
+// --- 🧠 ENGINE DE PESOS V2.0 (MASTERIZADA E SEGURA) ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
-    // ── FASE 1: MAPEAMENTO CIRÚRGICO DE REGEX (inalterado) ──────────────
     const REGEX_MAP = {
         familia:   /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i,
         superao:   /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i,
@@ -18,9 +68,6 @@ function atualizarConsultor() {
         saude:     /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i,
     };
 
-    // ── FASE 2: WEIGHTED SCORING ENGINE ─────────────────────────────────
-    // Cada chave acumula a QUANTIDADE REAL de tarefas ativas que batem no regex.
-    // Nenhum boolean. Apenas peso numérico real.
     const peso = {
         familia: 0, superao: 0, trabalho: 0,
         estudo: 0,  principios: 0, saude: 0,
@@ -37,7 +84,6 @@ function atualizarConsultor() {
         }
     });
 
-    // ── FASE 3: BANCO DE DADOS DE SABEDORIA (patrimônio preservado) ─────
     const MatrizSabedoria = {
         quadroLimpo: {
             titulo: "🎯 SPRINT LOG: Backlog Zerado",
@@ -69,7 +115,7 @@ function atualizarConsultor() {
             versiculo: "<strong>Provérbios 13:4</strong> - 'O preguiçoso deseja e nada consegue, mas os desejos do diligente são amplamente satisfeitos.'",
             borda: "#00f5d477", textoCor: "#00f5d4"
         },
-        trabalho: {
+        work: { // Fallback mapeado internamente como trabalho
             titulo: "💼 SPRINT ACTIVE: Foco no Faturamento",
             conselho: "<strong>Direcionamento Executivo:</strong> Você possui itens de alta prioridade na sua esteira de produção corporativa (Sprint Ativa). Como um estrategista de negócios, execute cada entrega focando no valor final entregue ao cliente, minimizando o desperdício de tempo e organizando o fluxo no ClickUp.",
             versiculo: "<strong>Provérbios 22:29</strong> - 'Você já viu um homem talentoso no seu trabalho? Ele servirá diante de reis...'",
@@ -101,98 +147,61 @@ function atualizarConsultor() {
         }
     };
 
-    // ── FASE 4: DECISION ENGINE — Anti-Blocking por Volumetria ──────────
-    //
-    // REGRAS:
-    //   R0. Lista vazia → quadroLimpo
-    //   R1. Nenhuma tarefa ativa → sucessoTotal
-    //   R2. Dominância absoluta: um contexto lidera por MARGEM >= 3 sobre
-    //       todos os outros → assume o card sem disputa.
-    //   R3. Família em CONCORRÊNCIA (outros contextos com peso >= 1):
-    //       família NÃO trava mais o motor — cai para geral ou combinação.
-    //   R4. Família ISOLADA (sem concorrentes) → card família.
-    //   R5. Combinações equilibradas → motor de prioridade por score.
-    //   R6. Pulverização sem dominante → geral.
-
     let selecionado;
 
-    // R0 / R1 — estados de lista
     if (minhaListaDeItens.length === 0) {
         selecionado = MatrizSabedoria.quadroLimpo;
-
     } else if (totalAtivas === 0) {
         selecionado = MatrizSabedoria.sucessoTotal;
-
     } else {
-        // Contextos que têm ao menos 1 tarefa ativa detectada
         const ativos = Object.entries(peso).filter(([, v]) => v > 0);
         const totalContextosAtivos = ativos.length;
 
-        // Score máximo e segundo maior para cálculo de margem
         const scoreOrdenado = [...ativos].sort(([, a], [, b]) => b - a);
         const [liderKey, liderScore] = scoreOrdenado[0] ?? ['', 0];
         const [, segundoScore]       = scoreOrdenado[1] ?? ['', 0];
         const margem = liderScore - segundoScore;
 
-        // R2 — dominância absoluta: líder com margem >= 3
         if (liderScore > 0 && margem >= 3) {
             const mapaLider = {
                 familia:    MatrizSabedoria.familia,
                 superao:    MatrizSabedoria.superao,
-                trabalho:   MatrizSabedoria.trabalho,
+                trabalho:   MatrizSabedoria.work,
                 estudo:     MatrizSabedoria.estudo,
                 principios: MatrizSabedoria.principios,
                 saude:      MatrizSabedoria.saudeRotina,
             };
             selecionado = mapaLider[liderKey] ?? MatrizSabedoria.geral;
-
-        // R3 — família em concorrência: outros contextos presentes → não trava
         } else if (peso.familia > 0 && totalContextosAtivos > 1) {
-            // Família existe mas não está sozinha: entrar em modo híbrido.
-            // Se trabalho+estudo também estão ativos, oferecer multiTrabalhoEstudo.
             if (peso.trabalho > 0 && peso.estudo > 0) {
                 selecionado = MatrizSabedoria.multiTrabalhoEstudo;
             } else {
                 selecionado = MatrizSabedoria.geral;
             }
-
-        // R4 — família isolada (sem concorrentes)
         } else if (peso.familia > 0 && totalContextosAtivos === 1) {
             selecionado = MatrizSabedoria.familia;
-
-        // R5 — combinações sem família: lógica de prioridade por peso
         } else if (totalContextosAtivos > 0) {
-            // Combinação trabalho + estudo equilibrada
             if (peso.trabalho > 0 && peso.estudo > 0) {
                 selecionado = MatrizSabedoria.multiTrabalhoEstudo;
-
-            // Princípios com pelo menos 2 tarefas → assume
             } else if (peso.principios >= 2) {
                 selecionado = MatrizSabedoria.principios;
-
-            // Pulverização total (>= 3 contextos distintos sem dominante) → geral
             } else if (totalContextosAtivos >= 3) {
                 selecionado = MatrizSabedoria.geral;
-
-            // Único líder restante (margem < 3 mas sem concorrência real)
             } else {
                 const mapaSimples = {
                     superao:    MatrizSabedoria.superao,
-                    trabalho:   MatrizSabedoria.trabalho,
+                    trabalho:   MatrizSabedoria.work,
                     estudo:     MatrizSabedoria.estudo,
                     principios: MatrizSabedoria.principios,
                     saude:      MatrizSabedoria.saudeRotina,
                 };
                 selecionado = mapaSimples[liderKey] ?? MatrizSabedoria.geral;
             }
-
-        // R6 — fallback total
         } else {
             selecionado = MatrizSabedoria.geral;
         }
     }
 
-    // ── FASE 5: RENDERIZAÇÃO DOM (idêntica ao original) ─────────────────
     feedbackText.innerHTML = `
         <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
         <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
@@ -203,3 +212,86 @@ function atualizarConsultor() {
     `;
     feedbackText.parentElement.style.borderColor = selecionado.borda;
 }
+
+// --- LÓGICA DO RELÓGIO LED INTELIGENTE E DATA ---
+function gerenciarPainelSuperior() {
+    const agora = new Date()
+    const hora = agora.getHours()
+    const relogioElemento = document.getElementById('relogio')
+    const saudacaoElemento = document.getElementById('saudacao')
+    const dataElemento = document.getElementById('data-display')
+
+    if (relogioElemento) {
+        relogioElemento.textContent = agora.toLocaleTimeString('pt-BR')
+    }
+
+    if (dataElemento) {
+        const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+        const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+        
+        const diaSemana = diasSemana[agora.getDay()]
+        const dia = String(agora.getDate()).padStart(2, '0')
+        const mes = meses[agora.getMonth()]
+        const ano = agora.getFullYear()
+        
+        dataElemento.textContent = `${diaSemana}, ${dia} ${mes} ${ano}`
+    }
+
+    if (saudacaoElemento) {
+        if (hora >= 5 && hora < 12) {
+            saudacaoElemento.textContent = "☀️ Bom dia, Executivo!"
+        } else if (hora >= 12 && hora < 18) {
+            saudacaoElemento.textContent = "💡 Boa tarde, foco total!"
+        } else {
+            saudacaoElemento.textContent = "🌙 Boa noite, planejamento active!"
+        }
+    }
+}
+
+// --- LÓGICA DE RECONHECIMENTO DE VOZ (MICROFONE) ---
+const btnMic = document.getElementById('btn-mic')
+if (btnMic) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition()
+        recognition.lang = 'pt-BR'
+        recognition.continuous = false
+        recognition.interimResults = false
+
+        btnMic.addEventListener('click', () => {
+            recognition.start()
+            btnMic.style.backgroundColor = '#ff3b30' 
+            btnMic.textContent = "🛑"
+        })
+
+        recognition.onresult = (event) => {
+            const transcricao = event.results[0][0].transcript
+            input.value = transcricao.replace(/\.$/g, '') 
+        }
+
+        recognition.onend = () => {
+            btnMic.style.backgroundColor = '#003329' 
+            btnMic.textContent = "🎤"
+        }
+
+        recognition.onerror = () => {
+            btnMic.style.backgroundColor = '#003329'
+            btnMic.textContent = "🎤"
+        }
+    } else {
+        btnMic.style.display = 'none'
+    }
+}
+
+// --- INICIALIZAÇÃO DO SISTEMA ---
+recarregarTarefas()
+gerenciarPainelSuperior() 
+setInterval(gerenciarPainelSuperior, 1000) 
+
+button.addEventListener('click', adicionarNovaTarefa)
+input.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        adicionarNovaTarefa()
+    }
+})
