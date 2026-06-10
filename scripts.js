@@ -1,42 +1,44 @@
-const button = document.querySelector(".button-add-task");
-const input = document.getElementById("input-tarefa");
+const input = document.getElementById("campo-tarefa");
+const button = document.getElementById("btn-adicionar");
 const listaCompleta = document.querySelector(".list-tasks");
 
-let minhaLista = JSON.parse(localStorage.getItem("lista")) || [];
+let lista = JSON.parse(localStorage.getItem("lista")) || [];
 
 function adicionar() {
     if (!input.value.trim()) return;
-    minhaLista.push({ tarefa: input.value, concluida: false });
+    lista.push({ tarefa: input.value, concluida: false });
     input.value = "";
-    salvarEMostrar();
+    salvar();
 }
 
-function salvarEMostrar() {
-    localStorage.setItem("lista", JSON.stringify(minhaLista));
-    mostrarTarefas();
+// O ENTER VAI FUNCIONAR AGORA
+input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") adicionar();
+});
+
+button.addEventListener("click", adicionar);
+
+function salvar() {
+    localStorage.setItem("lista", JSON.stringify(lista));
+    renderizar();
 }
 
-function mostrarTarefas() {
-    listaCompleta.innerHTML = minhaLista.map((item, index) => `
+function renderizar() {
+    listaCompleta.innerHTML = lista.map((item, index) => `
         <li class="task">
-            <img src="img/checked.png" onclick="concluir(${index})">
-            <p>${item.tarefa}</p>
+            <span>${item.tarefa}</span>
             <img src="img/trash.png" onclick="deletar(${index})">
         </li>
     `).join("");
 }
 
-// CORREÇÃO DO ENTER
-input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        adicionar();
-    }
-});
-
-button.addEventListener("click", adicionar);
+function deletar(index) {
+    lista.splice(index, 1);
+    salvar();
+}
 
 setInterval(() => {
-    document.getElementById("relogio").textContent = new Date().toLocaleTimeString('pt-BR');
+    document.getElementById("relogio").textContent = new Date().toLocaleTimeString();
 }, 1000);
 
-mostrarTarefas();
+renderizar();
