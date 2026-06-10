@@ -1,12 +1,12 @@
-// --- 🧭 ENGINE CORRIGIDA: DINAMISMO EXECUTIVO E ALTA PRECISÃO ---
+// --- 🧭 ENGINE DE ALTA PRECISÃO MULTI-CONTEXTO (RESOLÇÃO DE CONCORRÊNCIA) ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
     let totalAtivas = 0;
     
-    // Interruptores de Contexto (Garantem que nada suma do mapa)
-    let detectou = {
+    // Contadores para entender a volumetria e o peso do dia
+    let focos = {
         familia: false,
         superao: false,
         trabalho: false,
@@ -15,37 +15,30 @@ function atualizarConsultor() {
         saude: false
     };
 
-    // Contadores para volume (usados para critério de desempate dinâmico)
-    let contagemPrincipios = 0;
-    let contagemTrabalho = 0;
-
-    // REGEX ULTRA SENSÍVEIS (Ajustadas para o seu vocabulário real)
+    // REGEX ULTRA SENSÍVEIS
     const regexFamilia = /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i;
     const regexSuperao = /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i;
     const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i;
     const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp|estydar)/i;
-    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando|oração|madrugada)/i;
+    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando)/i;
     const regexSaude = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i;
 
-    // Escaneamento do Backlog
+    // Escaneamento de todas as tarefas ativas sem perder nenhuma informação
     minhaListaDeItens.forEach(item => {
         if (!item.concluida) {
             totalAtivas++;
             const texto = item.tarefa;
             
-            if (regexFamilia.test(texto)) detectou.familia = true;
-            if (regexSuperao.test(texto)) detectou.superao = true;
-            if (regexTrabalho.test(texto)) detectou.trabalho = true;
-            if (regexEstudo.test(texto)) detectou.estudo = true;
-            if (regexPrincipios.test(texto)) {
-                detectou.principios = true;
-                contagemPrincipios++; // Conta quantas da igreja estão ativas
-            }
-            if (regexSaude.test(texto)) detectou.saude = true;
+            if (regexFamilia.test(texto)) focos.familia = true;
+            if (regexSuperao.test(texto)) focos.superao = true;
+            if (regexTrabalho.test(texto)) focos.trabalho = true;
+            if (regexEstudo.test(texto)) focos.estudo = true;
+            if (regexPrincipios.test(texto)) focos.principios = true;
+            if (regexSaude.test(texto)) focos.saude = true;
         }
     });
 
-    // BANCO DE DADOS DE SABEDORIA MATRIX (Com todos os versículos blindados)
+    // BANCO DE DADOS DE SABEDORIA MATRIX
     const MatrizSabedoria = {
         quadroLimpo: {
             titulo: "🎯 SPRINT LOG: Backlog Zerado",
@@ -61,7 +54,7 @@ function atualizarConsultor() {
         },
         familia: {
             titulo: "❤️ BLOCKER REMOVED: Conexão Vital e Honra",
-            conselho: "<strong>Direcionamento Executivo:</strong> O pilar de afeto e honra com sua mãe está ativo na sua esteira. A pressa do mercado e das entregas não pode invadir o ambiente familiar. Reserve um momento focado para estar com ela, recarregando sua inteligência emocional de base.",
+            conselho: "<strong>Direcionamento Executivo:</strong> Mesmo com a esteira cheia, o pilar de afeto e honra com sua mãe é inegociável. A pressa do mercado não pode invadir o ambiente familiar. Desconecte das ferramentas de gerenciamento por um momento e esteja 100% presente para recarregar sua inteligência emocional.",
             versiculo: "<strong>Provérbios 23:22b</strong> - '...e não despreze a sua mãe quando ela envelhecer.'",
             borda: "#ff4d6d77", textoCor: "#ff758f"
         },
@@ -73,7 +66,7 @@ function atualizarConsultor() {
         },
         multiTrabalhoEstudo: {
             titulo: "🔀 DUAL CORE: SPRINT & LABORATÓRIO ACCEL",
-            conselho: "<strong>Direcionamento Executivo:</strong> Você está equilibrando o faturamento imediato com o desenvolvimento de Know-How técnico (Cursor/Estudos). Divida seu dia em blocos rígidos de tempo (Timeboxing) para evitar a fadiga mental de alternar o foco.",
+            conselho: "<strong>Direcionamento Executivo:</strong> Você está equilibrando o faturamento imediato (ClickUp/Propostas) com o desenvolvimento de Know-How técnico (Cursor/Estudos). Isso exige alta energia cognitiva. Divida seu dia em blocos rígidos de tempo (Timeboxing) para evitar a estafa mental de mudar de foco a todo momento.",
             versiculo: "<strong>Provérbios 13:4</strong> - 'O preguiçoso deseja e nada consegue, mas os desejos do diligente são amplamente satisfeitos.'",
             borda: "#00f5d477", textoCor: "#00f5d4"
         },
@@ -91,8 +84,8 @@ function atualizarConsultor() {
         },
         principios: {
             titulo: "🛡️ COMPASS REALIGNMENT: Alinhamento de Bússola",
-            conselho: "<strong>Direcionamento Executivo:</strong> A atmosfera de oração, comunhão e busca espiritual domina a sua esteira agora. Desconecte a mente dos prazos de código e do trânsito. Deixar o peso do mercado do lado de fora do templo e orar renova as suas forças estruturais.",
-            versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias; correm e não ficam exaustos, andam e não se cansam.'",
+            conselho: "<strong>Direcionamento Executivo:</strong> Há espaço reservado para renovação espiritual na sua agenda hoje (Igreja/Célula). Use este tempo para desacelerar o ritmo frenético do trânsito e do mercado. Deixar o trabalho na porta e orar renova a mente contra pressões externas.",
+            versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias...'",
             borda: "#9d4edd77", textoCor: "#c8b6ff"
         },
         saudeRotina: {
@@ -102,14 +95,14 @@ function atualizarConsultor() {
             borda: "#ffb70377", textoCor: "#ffb703"
         },
         geral: {
-            titulo: "🧭 BACKLOG OVERVIEW: Ordenação de Fluxo",
-            conselho: "<strong>Direcionamento Executivo:</strong> Múltiplas demandas na fila. Mantenha a disciplina de focar em uma tarefa por vez para evitar perda de desempenho por alternância de contexto (Context Switching). Siga a ordem do seu planejamento.",
+            titulo: "🧭 MULTI-TASKING: Balanceamento de Backlog",
+            conselho: "<strong>Direcionamento Executivo:</strong> Você está cruzando múltiplos pilares hoje (Operação, Estudo e Logística de Rua). Para não quebrar o ritmo, siga o framework Scrum à risca: ordene por prioridade financeira e execute rigorosamente uma por uma, blindando sua mente contra distrações.",
             versiculo: "<strong>Salmos 37:5</strong> - 'Entregue o seu caminho ao Senhor; confie nele, e ele agirá.'",
             borda: "#ffffff22", textoCor: "#ffffff"
         }
     };
 
-    // LÓGICA DE DECISÃO SELECIONADA (Dinâmica, Fluida e Sem Travamento)
+    // LOGICA DE SÍNTESE INTELIGENTE (Resolve o conflito de múltiplas tarefas acumuladas)
     let selecionado = MatrizSabedoria.geral;
     
     if (minhaListaDeItens.length === 0) {
@@ -117,21 +110,23 @@ function atualizarConsultor() {
     } else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
         selecionado = MatrizSabedoria.sucessoTotal;
     } else {
-        // Se a volumetria da igreja for esmagadora (como no seu exemplo de 4 tarefas), ela assume o controle
-        if (detectou.principios && contagemPrincipios >= 2) {
-            selecionado = MatrizSabedoria.principios;
-        }
-        // Caso contrário, seguimos a hierarquia de proteção e foco
-        else if (detectou.familia) selecionado = MatrizSabedoria.familia;
-        else if (detectou.superao) selecionado = MatrizSabedoria.superao;
-        else if (detectou.trabalho && detectou.estudo) usado = MatrizSabedoria.multiTrabalhoEstudo;
-        else if (detectou.trabalho) selecionado = MatrizSabedoria.trabalho;
-        else if (detectou.estudo) selecionado = MatrizSabedoria.estudo;
-        else if (detectou.principios) selecionado = MatrizSabedoria.principios;
-        else if (detectou.saude) selecionado = MatrizSabedoria.saudeRotina;
+        // Regra de Ouro 1: Se envolve mãe/afeto, assume prioridade emocional total sobre a esteira de código
+        if (focos.familia) selecionado = MatrizSabedoria.familia;
+        
+        // Regra de Ouro 2: Se envolve crise/superação, entra no gerenciamento de crise
+        else if (focos.superao) selecionado = MatrizSabedoria.superao;
+        
+        // Regra de Ouro 3: Se tem Trabalho E Estudo ATIVOS juntos, ele ativa o modo híbrido corporativo (DUAL CORE)
+        else if (focos.trabalho && focos.estudo) selecionado = MatrizSabedoria.multiTrabalhoEstudo;
+        
+        // Regras Lineares se o dia estiver concentrado em um único bloco de ação
+        else if (focos.trabalho) selecionado = MatrizSabedoria.trabalho;
+        else if (focos.estudo) selecionado = MatrizSabedoria.estudo;
+        else if (focos.principios) selecionado = MatrizSabedoria.principios;
+        else if (focos.saude) selecionado = MatrizSabedoria.saudeRotina;
     }
 
-    // Renderização com o retorno garantido do bloco de versículo
+    // Renderização final com a estrutura hierárquica atualizada
     feedbackText.innerHTML = `
         <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
         <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
