@@ -3,13 +3,17 @@ body { background: #021726; display: flex; flex-direction: column; align-items: 
 .brand-logo { width: 150px; height: auto; margin-bottom: 20px; }
 
 .dashboard { width: 400px; }
-.clock-panel { color: white; text-align: center; font-size: 30px; margin-bottom: 20px; font-family: monospace; }
+
+.clock-panel { color: white; text-align: center; font-size: 40px; margin-bottom: 20px; }
 
 .task-card { background: #63d8fc; padding: 20px; border-radius: 10px; }
+
 .input-area { display: flex; gap: 5px; margin-bottom: 15px; }
-#campo-tarefa { flex: 1; height: 35px; border-radius: 5px; border: none; padding-left: 10px; }
+
+#input-tarefa { flex: 1; height: 35px; border-radius: 5px; border: none; padding-left: 10px; }
+
 #btn-adicionar { background: #003329; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
 
 .list-tasks { list-style: none; }
+
 .task { background: white; padding: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
-.task img { width: 20px; cursor: pointer; }
