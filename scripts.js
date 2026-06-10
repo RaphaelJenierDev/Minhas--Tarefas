@@ -4,6 +4,9 @@ const listaCompleta = document.querySelector('.list-tasks')
 
 let minhaListaDeItens = []
 
+// --- SUA CHAVE DO GOOGLE AI STUDIO (COLOQUE AQUI) ---
+const GEMINI_API_KEY = "AIzaSyCxP6upYJiFxeFrqM-zAsR5Hkqf6wkrwFU"; 
+
 // --- LÓGICA DE GERENCIAMENTO DE TAREFAS ---
 function adicionarNovaTarefa() {
     if (input.value.trim() === '') return; 
@@ -54,172 +57,87 @@ function recarregarTarefas() {
     mostrarTarefas()
 }
 
-// --- 🧭 ENGINE CONSULTORA: MATRIZ DE PESOS ANTI-LOOP ---
-function atualizarConsultor() {
+// --- 🧭 ENGINE CONSULTORA: INTEGRADA COM O GEMINI VIVO ---
+async function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
-    let totalAtivas = 0;
-    
-    // Contadores volumétricos de contexto (Substituindo booleanos puros para evitar travas)
-    let pesos = {
-        familia: 0,
-        superao: 0,
-        trabalho: 0,
-        estudo: 0,
-        principios: 0,
-        saude: 0
-    };
+    // Filtra apenas as tarefas ativas
+    const tarefasAtivas = minhaListaDeItens
+        .filter(item => !item.concluida)
+        .map(item => item.tarefa);
 
-    // REGEX ULTRA SENSÍVEIS (Mapeamento Cirúrgico original preservado)
-    const regexFamilia = /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i;
-    const regexSuperao = /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i;
-    const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i;
-    const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp|estydar)/i;
-    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando|oração|madrugada)/i;
-    const regexSaude = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i;
-
-    // Escaneamento de volumetria real do Backlog ativo
-    minhaListaDeItens.forEach(item => {
-        if (!item.concluida) {
-            totalAtivas++;
-            const texto = item.tarefa;
-            
-            if (regexFamilia.test(texto)) pesos.familia++;
-            if (regexSuperao.test(texto)) pesos.superao++;
-            if (regexTrabalho.test(texto)) pesos.trabalho++;
-            if (regexEstudo.test(texto)) pesos.estudo++;
-            if (regexPrincipios.test(texto)) pesos.principios++;
-            if (regexSaude.test(texto)) pesos.saude++;
-        }
-    });
-
-    // BANCO DE DADOS DE SABEDORIA (Sua Matriz de Respostas)
-    const MatrizSabedoria = {
-        quadroLimpo: {
-            titulo: "🎯 SPRINT LOG: Backlog Zerado",
-            conselho: "Seu quadro está limpo. No framework Scrum, isso significa que a meta da Sprint foi atingida com sucesso. Use este vácuo operacional para planejar o seu próximo salto estratégico de faturamento macro na Jenier.",
-            versiculo: "<strong>Provérbios 16:3</strong> - 'Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos.'",
-            borda: "#00d4ff33", textoCor: "#00d4ff"
-        },
-        sucessoTotal: {
-            titulo: "🏆 RETROSPECTIVE: Sprint Concluída",
-            conselho: "Todas as metas da esteira foram entregues. Celebrar a conclusão dos itens do backlog reforça o comportamento de alta performance e gera tração real. Desligue o ecossistema de desenvolvimento e descanse a mente.",
-            versiculo: "<strong>Eclesiastes 3:13</strong> - 'Descobri também que a melhor coisa que o homem pode fazer é comer, beber e desfrutar do resultado do seu trabalho duro. Isso é um presente de Deus.'",
-            borda: "#06d6a055", textoCor: "#06d6a0"
-        },
-        familia: {
-            titulo: "❤️ BLOCKER REMOVED: Conexão Vital e Honra",
-            conselho: "<strong>Direcionamento Executivo:</strong> O pilar de afeto e honra com sua mãe está ativo na sua esteira. A pressa do mercado e das entregas não pode invadir o ambiente familiar. Reserve um momento focado para estar com ela, recarregando sua inteligência emocional de base.",
-            versiculo: "<strong>Provérbios 23:22b</strong> - '...e não despreze a sua mãe quando ela envelhecer.'",
-            borda: "#ff4d6d77", textoCor: "#ff758f"
-        },
-        superao: {
-            titulo: "⚡ CRISIS MANAGEMENT: Resiliência Ativa",
-            conselho: "<strong>Direcionamento Executivo:</strong> Identifiquei tarefas de alta pressão na sua fila. A postura de um consultor sênior é isolar as variáveis emocionais do estresse e focar no próximo Bloco de Execução. Mantenha a cabeça fria e os pés firmes.",
-            versiculo: "<strong>Josué 1:9</strong> - 'Não fui eu que ordenei a você? Seja forte e corajoso! Não se apavore nem desanime...'",
-            borda: "#ffeed155", textoCor: "#ffd166"
-        },
-        multiTrabalhoEstudo: {
-            titulo: "🔀 DUAL CORE: SPRINT & LABORATÓRIO ACCEL",
-            conselho: "<strong>Direcionamento Executivo:</strong> Você está equilibrando o faturamento imediato com o desenvolvimento de Know-How técnico (Cursor/Estudos). Divida seu dia em blocos rígidos de tempo (Timeboxing) para evitar a fadiga mental de alternar o foco.",
-            versiculo: "<strong>Provérbios 13:4</strong> - 'O preguiçoso deseja e nada consegue, mas os desejos do diligente são amplamente satisfeitos.'",
-            borda: "#00f5d477", textoCor: "#00f5d4"
-        },
-        trabalho: {
-            titulo: "💼 SPRINT ACTIVE: Foco no Faturamento",
-            conselho: "<strong>Direcionamento Executivo:</strong> Você possui itens de alta prioridade na sua esteira de produção corporativa (Sprint Ativa). Como um estrategista de negócios, execute cada entrega focando no valor final entregue ao cliente, minimizando o desperdício de tempo e organizando o fluxo no ClickUp.",
-            versiculo: "<strong>Provérbios 22:29</strong> - 'Você já viu um homem talentoso no seu trabalho? Ele servirá diante de reis...'",
-            borda: "#00d4ffaa", textoCor: "#00d4ff"
-        },
-        estudo: {
-            titulo: "🚀 R&D LABS: Engenharia e Conhecimento",
-            conselho: "<strong>Direcionamento Executivo:</strong> Bloco focado em Pesquisa e Desenvolvimento (R&D). A engenharia de software exige profundidade analítica. Não caia no erro de pular etapas; execute o código no Cursor, valide na arquitetura e monte uma POC (Prova de Conceito) real para o seu portfólio.",
-            versiculo: "<strong>Provérbios 10:14</strong> - 'Os sábios acumulam conhecimento, mas a boca do insensato é um convite à ruína.'",
-            borda: "#06d6a077", textoCor: "#06d6a0"
-        },
-        principios: {
-            titulo: "🛡️ COMPASS REALIGNMENT: Alinhamento de Bússola",
-            conselho: "<strong>Direcionamento Executivo:</strong> A atmosfera de oração, comunhão e busca espiritual domina a sua esteira agora. Desconecte a mente dos prazos de código e do trânsito. Deixar o peso do mercado do lado de fora do templo e orar renova as suas forças estruturais.",
-            versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias; correm e não ficam exaustos, andam e não se cansam.'",
-            borda: "#9d4edd77", textoCor: "#c8b6ff"
-        },
-        saudeRotina: {
-            titulo: "🍏 LOGISTICS & HARDWARE: Proteção do Ativo",
-            conselho: "<strong>Direcionamento Executivo:</strong> Suas tarefas operacionais ou rotas de delivery exigem energia física. O seu corpo é a infraestrutura mecânica onde a sua agência roda. Gerencie os riscos, pilote com segurança e não comprometa sua saúde pela pressa de chegar.",
-            versiculo: "<strong>Provérbios 4:23</strong> - 'Acima de tudo que se deve guardar, guarde o seu coração, pois dele procedem as fontes da vida.'",
-            borda: "#ffb70377", textoCor: "#ffb703"
-        },
-        geral: {
-            titulo: "🧭 BACKLOG OVERVIEW: Ordenação de Fluxo",
-            conselho: "<strong>Direcionamento Executivo:</strong> Múltiplas demandas na fila. Mantenha a disciplina de focar em uma tarefa por vez para evitar perda de desempenho por alternância de contexto (Context Switching). Siga a ordem do seu planejamento.",
-            versiculo: "<strong>Salmos 37:5</strong> - 'Entregue o seu caminho ao Senhor; confie nele, e ele agirá.'",
-            borda: "#ffffff22", textoCor: "#ffffff"
-        }
-    };
-
-    // --- MOTO LOGÍSTICO DE COMPORTAMENTO DINÂMICO ---
-    let selecionado = MatrizSabedoria.geral;
-    
-    if (minhaListaDeItens.length === 0) {
-        selecionado = MatrizSabedoria.quadroLimpo;
-    } else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
-        selecionado = MatrizSabedoria.sucessoTotal;
-    } else {
-        // Conta quantos contextos diferentes receberam pelo menos 1 ponto
-        let contextosAtivos = Object.values(pesos).filter(v => v > 0).length;
-
-        // Determina quem é o maior pilar atual na fila
-        let maiorPilar = "geral";
-        let maiorPontuacao = 0;
-        
-        for (let pilar in pesos) {
-            if (pesos[pilar] > maiorPontuacao) {
-                maiorPontuacao = pesos[pilar];
-                maiorPilar = pilar;
-            }
-        }
-
-        // Regra Híbrida Inteligente: Se houver mistura de múltiplos assuntos (3 ou mais contextos ativos),
-        // o painel vira automaticamente GERAL ou DUAL CORE, impedindo o travamento egoísta de um único card.
-        if (contextosAtivos >= 3) {
-            if (pesos.trabalho > 0 && pesos.estudo > 0) {
-                selecionado = MatrizSabedoria.multiTrabalhoEstudo;
-            } else {
-                selecionado = MatrizSabedoria.geral;
-            }
-        } else {
-            // Se o dia não estiver pulverizado, segue a dominância real por volume de tarefas
-            if (pesos.principios >= 2) {
-                selecionado = MatrizSabedoria.principios;
-            } else if (maiorPilar === "familia" && pesos.familia > 0) {
-                selecionado = MatrizSabedoria.familia;
-            } else if (maiorPilar === "superao" && pesos.superao > 0) {
-                selecionado = MatrizSabedoria.superao;
-            } else if (pesos.trabalho > 0 && pesos.estudo > 0) {
-                selecionado = MatrizSabedoria.multiTrabalhoEstudo;
-            } else if (maiorPilar === "trabalho" && pesos.trabalho > 0) {
-                selecionado = MatrizSabedoria.trabalho;
-            } else if (maiorPilar === "estudo" && pesos.estudo > 0) {
-                selecionado = MatrizSabedoria.estudo;
-            } else if (pesos.principios > 0) {
-                selecionado = MatrizSabedoria.principios;
-            } else if (pesos.saude > 0) {
-                selecionado = MatrizSabedoria.saudeRotina;
-            }
-        }
+    // Se o backlog estiver zerado, renderiza o painel local rápido sem gastar requisição
+    if (tarefasAtivas.length === 0) {
+        renderizarPainelLocal(
+            "🎯 SPRINT LOG: Backlog Zerado", 
+            "Seu quadro está limpo. No framework Scrum, isso significa que a meta da Sprint foi atingida com sucesso. Use este vácuo operacional para planejar o seu próximo salto estratégico de faturamento macro na Jenier.", 
+            "<strong>Provérbios 16:3</strong> - 'Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos.'", 
+            "#00d4ff", 
+            "#00d4ff33"
+        );
+        return;
     }
 
-    // Renderização segura no container HTML
+    try {
+        // Chamada direta para o endpoint do Gemini 1.5 Flash
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `Analise as seguintes tarefas ativas da minha esteira: ${JSON.stringify(tarefasAtivas)}. Siga estritamente as instruções de sistema e preencha o JSON formatado.`
+                    }]
+                }],
+                systemInstruction: {
+                    parts: [{
+                        text: "Você é um Consultor Estrategista de TI, Administração e Mentor Espiritual. Analise a lista de tarefas e retorne OBRIGATORIAMENTE um objeto JSON puro, sem aspas triplas de markdown (\`\`\`json) e sem texto explicativo fora do objeto, contendo exatamente as chaves: 'titulo' (caixa alta, estilo Scrum/Executivo), 'conselho' (direcionamento dinâmico unificando os assuntos mais críticos do dia), 'versiculo' (um versículo bíblico altamente contextualizado com o momento dele, contendo livro, capítulo e versículo), 'textoCor' (uma cor hexadecimal vibrante para a fonte de acordo com o tema predominante) e 'borda' (a mesma cor com opacidade para o container, ex: #ff4d6d33)."
+                    }]
+                },
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            })
+        });
+
+        const data = await response.json();
+        
+        // Trata a resposta e faz o parse do JSON gerado pela IA
+        const insightIA = JSON.parse(data.candidates[0].content.parts[0].text);
+
+        // Renderiza no seu HTML de forma dinâmica
+        feedbackText.innerHTML = `
+            <span style="font-weight: 700; color: ${insightIA.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${insightIA.titulo}</span>
+            <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;"><strong>Direcionamento Executivo:</strong> ${insightIA.conselho}</span>
+            <hr style="border: 0; border-top: 1px dashed ${insightIA.borda}; margin: 10px 0;">
+            <span style="display: block; color: #d8f3dc; font-size: 12.5px; line-height: 1.4; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border-left: 3px solid ${insightIA.textoCor}; font-weight: 500;">
+                🙏 ${insightIA.versiculo}
+            </span>
+        `;
+        feedbackText.parentElement.style.borderColor = insightIA.borda;
+
+    } catch (error) {
+        console.error("Erro na comunicação com a API Gemini:", error);
+        // Fallback de segurança (Modo Offline) para o painel não quebrar se a internet oscilar
+        renderizarPainelLocal("🧭 BACKLOG ACTIVE: Modo Offline", "Múltiplas demandas na fila. Mantenha a disciplina executiva e execute uma tarefa por vez.", "<strong>Salmos 37:5</strong> - 'Entregue o seu caminho ao Senhor; confie nele, e ele agirá.'", "#ffffff", "#ffffff22");
+    }
+}
+
+// Função auxiliar para renderizar blocos estáticos locais
+function renderizarPainelLocal(titulo, conselho, versiculo, textoCor, borda) {
+    const feedbackText = document.getElementById('consultor-feedback');
     feedbackText.innerHTML = `
-        <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
-        <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
-        <hr style="border: 0; border-top: 1px dashed ${selecionado.borda}; margin: 10px 0;">
-        <span style="display: block; color: #d8f3dc; font-size: 12.5px; line-height: 1.4; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border-left: 3px solid ${selecionado.textoCor}; font-weight: 500;">
-            🙏 ${selecionado.versiculo}
+        <span style="font-weight: 700; color: ${textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${titulo}</span>
+        <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${conselho}</span>
+        <hr style="border: 0; border-top: 1px dashed ${borda}; margin: 10px 0;">
+        <span style="display: block; color: #d8f3dc; font-size: 12.5px; line-height: 1.4; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border-left: 3px solid ${textoCor}; font-weight: 500;">
+            🙏 ${versiculo}
         </span>
     `;
-    feedbackText.parentElement.style.borderColor = selecionado.borda;
+    feedbackText.parentElement.style.borderColor = borda;
 }
 
 // --- LÓGICA DO RELÓGIO LED INTELIGENTE E DATA ---
@@ -252,7 +170,7 @@ function gerenciarPainelSuperior() {
         } else if (hora >= 12 && hora < 18) {
             saudacaoElemento.textContent = "💡 Boa tarde, foco total!"
         } else {
-            saudacaoElemento.textContent = "🌙 Boa noite, planejamento active!"
+            saudacaoElemento.textContent = "🌙 Boa noite, planejamento ativo!"
         }
     }
 }
