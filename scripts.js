@@ -1,165 +1,65 @@
 const button = document.querySelector(".button-add-task");
-
 const input = document.querySelector(".input-task");
+const listaCompleta = document.querySelector(".list-tasks");
 
-const listaCompleta =
-document.querySelector(".list-tasks");
-
-let minhaListaDeItens =
-JSON.parse(localStorage.getItem("lista")) || [];
-
+let minhaListaDeItens = JSON.parse(localStorage.getItem("lista")) || [];
 let filtroAtual = "todas";
 
-function adicionarNovaTarefa(){
-
-if(input.value.trim()==="") return;
-
-minhaListaDeItens.push({
-
-tarefa:input.value,
-concluida:false
-
-});
-
-input.value="";
-
-salvarEMostrar();
-
+function adicionarNovaTarefa() {
+    if(input.value.trim() === "") return;
+    minhaListaDeItens.push({ tarefa: input.value, concluida: false });
+    input.value = "";
+    salvarEMostrar();
 }
 
-function mostrarTarefas(){
-
-let novaLi="";
-
-minhaListaDeItens.forEach((item,posicao)=>{
-
-if(
-filtroAtual==="pendentes"
-&&
-item.concluida
-) return;
-
-novaLi+=`
-
-<li class="task ${item.concluida ? 'done' : ''}">
-
-<img
-src="./img/checked.png"
-onclick="concluirTarefa(${posicao})"
->
-
-<p>${item.tarefa}</p>
-
-<img
-src="./img/trash.png"
-onclick="deletarItem(${posicao})"
->
-
-</li>
-
-`;
-
-});
-
-listaCompleta.innerHTML=novaLi;
-
+function mostrarTarefas() {
+    let novaLi = "";
+    minhaListaDeItens.forEach((item, posicao) => {
+        if(filtroAtual === "pendentes" && item.concluida) return;
+        novaLi += `
+            <li class="task ${item.concluida ? 'done' : ''}">
+                <img src="./img/checked.png" onclick="concluirTarefa(${posicao})" style="width:25px; cursor:pointer">
+                <p>${item.tarefa}</p>
+                <img src="./img/trash.png" onclick="deletarItem(${posicao})" style="width:25px; cursor:pointer">
+            </li>
+        `;
+    });
+    listaCompleta.innerHTML = novaLi;
 }
 
-function concluirTarefa(posicao){
-
-minhaListaDeItens[posicao].concluida=
-!minhaListaDeItens[posicao].concluida;
-
-salvarEMostrar();
-
+function concluirTarefa(posicao) {
+    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
+    salvarEMostrar();
 }
 
-function deletarItem(posicao){
-
-minhaListaDeItens.splice(posicao,1);
-
-salvarEMostrar();
-
+function deletarItem(posicao) {
+    minhaListaDeItens.splice(posicao, 1);
+    salvarEMostrar();
 }
 
-function filtrarTarefas(tipo){
-
-filtroAtual=tipo;
-
-mostrarTarefas();
-
+function filtrarTarefas(tipo) {
+    filtroAtual = tipo;
+    mostrarTarefas();
 }
 
-function salvarEMostrar(){
-
-localStorage.setItem(
-"lista",
-JSON.stringify(minhaListaDeItens)
-);
-
-mostrarTarefas();
-
+function salvarEMostrar() {
+    localStorage.setItem("lista", JSON.stringify(minhaListaDeItens));
+    mostrarTarefas();
 }
 
-button.addEventListener(
-"click",
-adicionarNovaTarefa
-);
+button.addEventListener("click", adicionarNovaTarefa);
+input.addEventListener("keydown", (e) => { if(e.key === "Enter") adicionarNovaTarefa(); });
 
-input.addEventListener(
-"keydown",
-(event)=>{
-if(event.key==="Enter"){
-adicionarNovaTarefa();
-}
-}
-);
-
-function atualizarRelogio(){
-
-const agora = new Date();
-
-let horas = agora.getHours();
-
-let minutos =
-String(
-agora.getMinutes()
-).padStart(2,"0");
-
-let segundos =
-String(
-agora.getSeconds()
-).padStart(2,"0");
-
-let periodo = "AM";
-
-if(horas >= 12){
-
-periodo = "PM";
-
+function atualizarRelogio() {
+    const agora = new Date();
+    const horas = agora.getHours();
+    const minutos = String(agora.getMinutes()).padStart(2, "0");
+    const segundos = String(agora.getSeconds()).padStart(2, "0");
+    
+    document.getElementById("relogio").textContent = `${String(horas % 12 || 12).padStart(2, "0")}:${minutos}:${segundos}`;
+    document.getElementById("periodo").textContent = horas >= 12 ? "PM" : "AM";
 }
 
-let horas12 = horas % 12;
-
-if(horas12 === 0){
-
-horas12 = 12;
-
-}
-
-document.getElementById("relogio").textContent =
-`${String(horas12).padStart(2,"0")}:${minutos}:${segundos}`;
-
-document.getElementById("periodo").textContent =
-periodo;
-
-}
-
-setInterval(
-atualizarRelogio,
-1000
-);
-
+setInterval(atualizarRelogio, 1000);
 atualizarRelogio();
-
 mostrarTarefas();
