@@ -8,26 +8,33 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>JenierSolucoes - Todo list</title>
 </head>
 
 <body>
-    <div class="container">
-        <input class="input-task" placeholder="O que tenho que fazer...">
-        <button class="button-add-task">Adicionar</button>
+    <div class="dashboard-wrapper">
+        
+        <div class="header-dashboard">
+            <div id="saudacao">Carregando...</div>
+            <div class="clock-panel">
+                <span id="relogio">00:00:00</span>
+            </div>
+        </div>
 
-        <ul class="list-tasks">
-            <li>                             
-                <img src="img/checked.png" alt="check-na-tarefa">
+        <div class="container">
+            <div class="input-wrapper">
+                <input class="input-task" placeholder="O que tenho que fazer...">
+                <button id="btn-mic" title="Falar tarefa">🎤</button>
+                <button class="button-add-task">Adicionar</button>
+            </div>
 
-                <p>JenierSolucoes</p>
+            <ul class="list-tasks">
+                </ul>
+        </div>
 
-            <img src="img/trash.png" alt="">
-            </li>
-
-        </ul>
     </div>
+
+    <script src="scripts.js"></script>
 </body>
-<script src="scripts.js"></script>
 </html>
