@@ -5,8 +5,11 @@ const listaCompleta = document.querySelector('.list-tasks');
 let minhaListaDeItens = JSON.parse(localStorage.getItem('lista')) || [];
 let filtroAtual = 'todas';
 
-function salvarTarefas() {
-    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
+function adicionarNovaTarefa() {
+    if (input.value.trim() === '') return;
+    minhaListaDeItens.push({ tarefa: input.value, concluida: false });
+    input.value = '';
+    salvarEMostrar();
 }
 
 function mostrarTarefas() {
@@ -24,24 +27,14 @@ function mostrarTarefas() {
     listaCompleta.innerHTML = novaLi;
 }
 
-function adicionarNovaTarefa() {
-    if (input.value.trim() === '') return;
-    minhaListaDeItens.push({ tarefa: input.value, concluida: false });
-    input.value = '';
-    salvarTarefas();
-    mostrarTarefas();
-}
-
 function concluirTarefa(posicao) {
     minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
-    salvarTarefas();
-    mostrarTarefas();
+    salvarEMostrar();
 }
 
 function deletarItem(posicao) {
     minhaListaDeItens.splice(posicao, 1);
-    salvarTarefas();
-    mostrarTarefas();
+    salvarEMostrar();
 }
 
 function filtrarTarefas(tipo) {
@@ -49,9 +42,15 @@ function filtrarTarefas(tipo) {
     mostrarTarefas();
 }
 
-// Relógio
+function salvarEMostrar() {
+    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
+    mostrarTarefas();
+}
+
+// Relógio Estilo Painel
 setInterval(() => {
-    document.getElementById('relogio').textContent = new Date().toLocaleTimeString();
+    const time = new Date().toLocaleTimeString('pt-BR');
+    document.getElementById('relogio').textContent = time;
 }, 1000);
 
 button.addEventListener("click", adicionarNovaTarefa);
