@@ -94,5 +94,24 @@ if (SpeechRecognition) {
     btnMic.style.display = 'none'; // Esconde se o navegador não suportar
     alert("Seu navegador não suporta reconhecimento de voz.");
 }
+function atualizarPainel() {
+    const agora = new Date();
+    const hora = agora.getHours();
+    const saudacao = document.getElementById('saudacao');
+    
+    // Atualiza o relógio
+    document.getElementById('relogio').textContent = agora.toLocaleTimeString();
+
+    // Lógica da saudação personalizada
+    if (hora >= 5 && hora < 12) {
+        saudacao.textContent = "Bom dia, vamos começar!";
+    } else if (hora >= 12 && hora < 18) {
+        saudacao.textContent = "Boa tarde, foco total!";
+    } else {
+        saudacao.textContent = "Boa noite, hora de planejar!";
+    }
+}
+setInterval(atualizarPainel, 1000);
+atualizarPainel();
 recarregarTarefas()
 button.addEventListener('click', adicionarNovaTarefa)
