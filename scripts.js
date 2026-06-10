@@ -1,48 +1,38 @@
-const input = document.getElementById("input-tarefa");
-const button = document.getElementById("btn-adicionar");
-const listaCompleta = document.querySelector(".list-tasks");
+const button = document.querySelector('.button-add-task');
+const input = document.querySelector('.input-task');
+const listaCompleta = document.querySelector('.list-tasks');
 
-let lista = JSON.parse(localStorage.getItem("lista")) || [];
+let minhaListaDeItens = [];
 
-function adicionar() {
+function adicionarNovaTarefa() {
     if (input.value.trim() === "") return;
-    lista.push({ tarefa: input.value });
+    
+    minhaListaDeItens.push(input.value);
     input.value = "";
-    salvar();
+    mostrarTarefas();
 }
 
-function salvar() {
-    localStorage.setItem("lista", JSON.stringify(lista));
-    renderizar();
+function mostrarTarefas() {
+    let novaLi = "";
+    
+    minhaListaDeItens.forEach((item) => {
+        novaLi += `
+            <li class="task">
+                <img src="img/checked.png" alt="check-na-tarefa">
+                <p>${item}</p>
+                <img src="img/trash.png" alt="deletar-tarefa">
+            </li>
+        `;
+    });
+    
+    listaCompleta.innerHTML = novaLi;
 }
 
-function renderizar() {
-    listaCompleta.innerHTML = lista.map((item, index) => `
-        <li class="task">
-            <span>${item.tarefa}</span>
-            <button onclick="deletar(${index})">X</button>
-        </li>
-    `).join("");
-}
+button.addEventListener("click", adicionarNovaTarefa);
 
-function deletar(index) {
-    lista.splice(index, 1);
-    salvar();
-}
-
-// Evento do botão
-button.addEventListener("click", adicionar);
-
-// Evento do ENTER
-input.addEventListener("keydown", function(e) {
+// Evento para o botão Enter
+input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        adicionar();
+        adicionarNovaTarefa();
     }
 });
-
-// Relógio
-setInterval(() => {
-    document.getElementById("relogio").textContent = new Date().toLocaleTimeString();
-}, 1000);
-
-renderizar();
