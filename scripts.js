@@ -31,4 +31,6 @@ function deletarItem(index) {
 }
 
 button.addEventListener("click", adicionarNovaTarefa);
-input.addEventListener("keypress", (e) => { if (e.key === "Enter") adicionarNovaTarefa(); });
+input.addEventListener("keypress", (e) => { 
+    if (e.key === "Enter") adicionarNovaTarefa(); 
+});
