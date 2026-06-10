@@ -82,3 +82,19 @@ input.addEventListener("keydown", (event) => {
 // Inicialização
 atualizarRelogio();
 mostrarTarefas();
+// ... (mantenha o restante do seu código acima)
+
+// Evento para o botão de clique
+button.addEventListener("click", adicionarNovaTarefa);
+
+// EVENTO DO ENTER (Reforçado)
+input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Impede comportamentos padrão indesejados
+        adicionarNovaTarefa();
+    }
+});
+
+// Inicialização
+atualizarRelogio();
+mostrarTarefas();
