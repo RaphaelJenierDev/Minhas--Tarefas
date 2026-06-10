@@ -1,34 +1,165 @@
-function atualizarRelogio(){
+const button = document.querySelector(".button-add-task");
 
-    const agora = new Date();
+const input = document.querySelector(".input-task");
 
-    let horas = agora.getHours();
+const listaCompleta =
+document.querySelector(".list-tasks");
 
-    const minutos =
-        String(agora.getMinutes()).padStart(2,'0');
+let minhaListaDeItens =
+JSON.parse(localStorage.getItem("lista")) || [];
 
-    const segundos =
-        String(agora.getSeconds()).padStart(2,'0');
+let filtroAtual = "todas";
 
-    let periodo = "AM";
+function adicionarNovaTarefa(){
 
-    if(horas >= 12){
-        periodo = "PM";
-    }
+if(input.value.trim()==="") return;
 
-    let horas12 = horas % 12;
+minhaListaDeItens.push({
 
-    if(horas12 === 0){
-        horas12 = 12;
-    }
+tarefa:input.value,
+concluida:false
 
-    document.getElementById("hora").innerHTML =
-        `${String(horas12).padStart(2,'0')}:${minutos}:${segundos}`;
+});
 
-    document.getElementById("periodo").textContent =
-        periodo;
+input.value="";
+
+salvarEMostrar();
+
 }
 
-setInterval(atualizarRelogio,1000);
+function mostrarTarefas(){
+
+let novaLi="";
+
+minhaListaDeItens.forEach((item,posicao)=>{
+
+if(
+filtroAtual==="pendentes"
+&&
+item.concluida
+) return;
+
+novaLi+=`
+
+<li class="task ${item.concluida ? 'done' : ''}">
+
+<img
+src="./img/checked.png"
+onclick="concluirTarefa(${posicao})"
+>
+
+<p>${item.tarefa}</p>
+
+<img
+src="./img/trash.png"
+onclick="deletarItem(${posicao})"
+>
+
+</li>
+
+`;
+
+});
+
+listaCompleta.innerHTML=novaLi;
+
+}
+
+function concluirTarefa(posicao){
+
+minhaListaDeItens[posicao].concluida=
+!minhaListaDeItens[posicao].concluida;
+
+salvarEMostrar();
+
+}
+
+function deletarItem(posicao){
+
+minhaListaDeItens.splice(posicao,1);
+
+salvarEMostrar();
+
+}
+
+function filtrarTarefas(tipo){
+
+filtroAtual=tipo;
+
+mostrarTarefas();
+
+}
+
+function salvarEMostrar(){
+
+localStorage.setItem(
+"lista",
+JSON.stringify(minhaListaDeItens)
+);
+
+mostrarTarefas();
+
+}
+
+button.addEventListener(
+"click",
+adicionarNovaTarefa
+);
+
+input.addEventListener(
+"keydown",
+(event)=>{
+if(event.key==="Enter"){
+adicionarNovaTarefa();
+}
+}
+);
+
+function atualizarRelogio(){
+
+const agora = new Date();
+
+let horas = agora.getHours();
+
+let minutos =
+String(
+agora.getMinutes()
+).padStart(2,"0");
+
+let segundos =
+String(
+agora.getSeconds()
+).padStart(2,"0");
+
+let periodo = "AM";
+
+if(horas >= 12){
+
+periodo = "PM";
+
+}
+
+let horas12 = horas % 12;
+
+if(horas12 === 0){
+
+horas12 = 12;
+
+}
+
+document.getElementById("relogio").textContent =
+`${String(horas12).padStart(2,"0")}:${minutos}:${segundos}`;
+
+document.getElementById("periodo").textContent =
+periodo;
+
+}
+
+setInterval(
+atualizarRelogio,
+1000
+);
 
 atualizarRelogio();
+
+mostrarTarefas();
