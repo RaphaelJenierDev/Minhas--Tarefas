@@ -1,209 +1,251 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Roboto',sans-serif;
+}
+
 body{
 
-    min-height:100vh;
+min-height:100vh;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+display:flex;
+justify-content:center;
+align-items:center;
 
-    background:
-    linear-gradient(
-        135deg,
-        #021726,
-        #03243b,
-        #00111d
-    );
+background:
+linear-gradient(
+135deg,
+#011423,
+#04243b,
+#00131f
+);
 
-    font-family:'Roboto',sans-serif;
-
-    overflow-x:hidden;
+overflow:hidden;
 }
 
 .dashboard{
 
-    width:900px;
-    position:relative;
+width:900px;
+position:relative;
 }
 
-.clock-header{
+.clock-container{
 
-    display:flex;
-    justify-content:center;
+display:flex;
+justify-content:center;
 
-    margin-bottom:25px;
+margin-bottom:30px;
 }
 
-.clock-box{
+.clock-wrapper{
 
-    display:flex;
-    align-items:center;
-    gap:15px;
+display:flex;
+align-items:center;
+gap:15px;
 }
 
-#hora{
+#relogio{
 
-    color:white;
+font-family:'Orbitron',sans-serif;
 
-    font-size:72px;
+font-size:72px;
 
-    font-family:'Orbitron',sans-serif;
+color:white;
 
-    text-shadow:
-    0 0 15px #4ddfff,
-    0 0 25px #4ddfff;
+text-shadow:
+0 0 10px #6de9ff,
+0 0 20px #6de9ff,
+0 0 40px #6de9ff;
 }
 
-.period-box{
+.clock-info{
 
-    display:flex;
-    flex-direction:column;
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
 #periodo{
 
-    color:white;
+color:white;
 
-    font-size:22px;
+font-weight:bold;
 
-    font-weight:bold;
+font-size:20px;
 }
 
-.pulse{
+.status-dot{
 
-    width:18px;
-    height:18px;
+width:18px;
+height:18px;
 
-    border-radius:50%;
+border-radius:50%;
 
-    background:#5cecff;
+background:#68ecff;
 
-    box-shadow:
-    0 0 10px #5cecff,
-    0 0 20px #5cecff,
-    0 0 40px #5cecff;
+margin-top:5px;
+
+box-shadow:
+0 0 10px #68ecff,
+0 0 25px #68ecff,
+0 0 45px #68ecff;
 }
 
 .task-card{
 
-    position:relative;
+position:relative;
 
-    background:
-    rgba(125,223,255,.18);
+padding:40px;
 
-    backdrop-filter:blur(20px);
+border-radius:25px;
 
-    border:1px solid rgba(255,255,255,.2);
+background:
+rgba(105,220,255,.15);
 
-    border-radius:30px;
+backdrop-filter:blur(15px);
 
-    padding:40px;
+border:1px solid rgba(255,255,255,.15);
 
-    box-shadow:
-    0 0 40px rgba(77,223,255,.35);
-
-    overflow:visible;
+box-shadow:
+0 0 40px rgba(80,220,255,.4);
 }
 
-.photo-wrapper{
+.team-circle{
 
-    position:absolute;
+position:absolute;
 
-    right:-80px;
-
-    top:-60px;
+right:-90px;
+top:-70px;
 }
 
-.photo-team{
+.team-circle img{
 
-    width:220px;
-    height:220px;
+width:230px;
+height:230px;
 
-    border-radius:50%;
+border-radius:50%;
 
-    object-fit:cover;
+border:5px solid #85eeff;
 
-    border:5px solid #89eeff;
+object-fit:cover;
 
-    box-shadow:
-    0 0 20px #89eeff,
-    0 0 40px #89eeff,
-    0 0 70px #89eeff;
+box-shadow:
+0 0 20px #85eeff,
+0 0 40px #85eeff,
+0 0 80px #85eeff;
 }
 
 .input-area{
 
-    display:flex;
-    gap:15px;
+display:flex;
+gap:15px;
 
-    margin-bottom:20px;
+margin-bottom:20px;
 }
 
 .input-task{
 
-    flex:1;
+flex:1;
 
-    height:55px;
+height:55px;
 
-    border:none;
+border:none;
 
-    border-radius:12px;
+border-radius:10px;
 
-    padding-left:20px;
+padding-left:15px;
+
+font-size:16px;
 }
 
 .button-add-task{
 
-    width:160px;
+width:170px;
 
-    border:none;
+border:none;
 
-    border-radius:12px;
+border-radius:10px;
 
-    background:#003329;
+background:#003329;
 
-    color:white;
+color:white;
 
-    font-weight:bold;
+font-weight:bold;
 
-    cursor:pointer;
+cursor:pointer;
+
+transition:.3s;
+}
+
+.button-add-task:hover{
+
+transform:scale(1.05);
 }
 
 .filters{
 
-    display:flex;
-    gap:10px;
+display:flex;
+gap:10px;
 
-    margin-bottom:20px;
+margin-bottom:20px;
 }
 
 .filters button{
 
-    background:#003329;
+padding:10px 20px;
 
-    color:white;
+border:none;
 
-    border:none;
+border-radius:8px;
 
-    padding:10px 20px;
+background:#003329;
 
-    border-radius:10px;
+color:white;
 
-    cursor:pointer;
+cursor:pointer;
+}
+
+.list-tasks{
+
+list-style:none;
 }
 
 .task{
 
-    background:white;
+background:white;
 
-    border-radius:12px;
+border-radius:12px;
 
-    padding:15px;
+padding:15px;
 
-    margin-bottom:12px;
+display:flex;
 
-    display:flex;
+justify-content:space-between;
 
-    justify-content:space-between;
+align-items:center;
 
-    align-items:center;
+margin-bottom:12px;
+}
+
+.task p{
+
+flex:1;
+margin-left:15px;
+}
+
+.task img{
+
+width:24px;
+cursor:pointer;
+}
+
+.done{
+
+background:#92c25c;
+}
+
+.done p{
+
+text-decoration:line-through;
 }
