@@ -14,19 +14,18 @@
 
 <body>
     <div class="container">
+        <div id="relogio" style="color: white; font-weight: bold; text-align: center; margin-bottom: 10px; font-family: monospace; font-size: 1.2rem;">00:00:00</div>
+        
         <input class="input-task" placeholder="O que tenho que fazer...">
         <button class="button-add-task">Adicionar</button>
 
+        <div class="filters">
+            <button onclick="filtrarTarefas('todas')">Todas</button>
+            <button onclick="filtrarTarefas('pendentes')">Pendentes</button>
+        </div>
+
         <ul class="list-tasks">
-            <li>                             
-                <img src="img/checked.png" alt="check-na-tarefa">
-
-                <p>JenierSolucoes</p>
-
-            <img src="img/trash.png" alt="">
-            </li>
-
-        </ul>
+            </ul>
     </div>
 </body>
 <script src="scripts.js"></script>
