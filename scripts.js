@@ -54,36 +54,52 @@ function recarregarTarefas() {
     mostrarTarefas()
 }
 
-// --- 🧠 ENGINE DE PESOS V2.0 (MASTERIZADA E SEGURA) ---
+// --- 🧭 ENGINE DE ALTA PRECISÃO CORRIGIDA E LIMPA ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
-    const REGEX_MAP = {
-        familia:   /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i,
-        superao:   /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i,
-        trabalho:  /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i,
-        estudo:    /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp|estydar)/i,
-        principios:/(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando|oração|madrugada)/i,
-        saude:     /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i,
-    };
-
-    const peso = {
-        familia: 0, superao: 0, trabalho: 0,
-        estudo: 0,  principios: 0, saude: 0,
-    };
-
     let totalAtivas = 0;
+    
+    // Interruptores de Contexto
+    let detectou = {
+        familia: false,
+        superao: false,
+        trabalho: false,
+        estudo: false,
+        principios: false,
+        saude: false
+    };
 
+    let contagemPrincipios = 0;
+
+    // REGEX ULTRA SENSÍVEIS (Mapeamento Cirúrgico)
+    const regexFamilia = /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i;
+    const regexSuperao = /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i;
+    const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i;
+    const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp|estydar)/i;
+    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando|oração|madrugada)/i;
+    const regexSaude = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i;
+
+    // Escaneamento do Backlog ativo
     minhaListaDeItens.forEach(item => {
-        if (item.concluida) return;
-        totalAtivas++;
-        const texto = item.tarefa;
-        for (const [contexto, regex] of Object.entries(REGEX_MAP)) {
-            if (regex.test(texto)) peso[contexto]++;
+        if (!item.concluida) {
+            totalAtivas++;
+            const texto = item.tarefa;
+            
+            if (regexFamilia.test(texto)) detectou.familia = true;
+            if (regexSuperao.test(texto)) detectou.superao = true;
+            if (regexTrabalho.test(texto)) detectou.trabalho = true;
+            if (regexEstudo.test(texto)) detectou.estudo = true;
+            if (regexPrincipios.test(texto)) {
+                detectou.principios = true;
+                contagemPrincipios++;
+            }
+            if (regexSaude.test(texto)) detectou.saude = true;
         }
     });
 
+    // BANCO DE DADOS DE SABEDORIA (Matriz de Dados Pura)
     const MatrizSabedoria = {
         quadroLimpo: {
             titulo: "🎯 SPRINT LOG: Backlog Zerado",
@@ -115,7 +131,7 @@ function atualizarConsultor() {
             versiculo: "<strong>Provérbios 13:4</strong> - 'O preguiçoso deseja e nada consegue, mas os desejos do diligente são amplamente satisfeitos.'",
             borda: "#00f5d477", textoCor: "#00f5d4"
         },
-        work: { // Fallback mapeado internamente como trabalho
+        trabalho: {
             titulo: "💼 SPRINT ACTIVE: Foco no Faturamento",
             conselho: "<strong>Direcionamento Executivo:</strong> Você possui itens de alta prioridade na sua esteira de produção corporativa (Sprint Ativa). Como um estrategista de negócios, execute cada entrega focando no valor final entregue ao cliente, minimizando o desperdício de tempo e organizando o fluxo no ClickUp.",
             versiculo: "<strong>Provérbios 22:29</strong> - 'Você já viu um homem talentoso no seu trabalho? Ele servirá diante de reis...'",
@@ -147,61 +163,52 @@ function atualizarConsultor() {
         }
     };
 
-    let selecionado;
-
+    // PROCESSAMENTO DINÂMICO DE HIERARQUIA (ANTI-LOOP MASTERIZADO)
+    let selecionado = MatrizSabedoria.geral;
+    
     if (minhaListaDeItens.length === 0) {
+        selected = MatrizSabedoria.quadroLimpo;
         selecionado = MatrizSabedoria.quadroLimpo;
-    } else if (totalAtivas === 0) {
+    } else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
         selecionado = MatrizSabedoria.sucessoTotal;
     } else {
-        const ativos = Object.entries(peso).filter(([, v]) => v > 0);
-        const totalContextosAtivos = ativos.length;
-
-        const scoreOrdenado = [...ativos].sort(([, a], [, b]) => b - a);
-        const [liderKey, liderScore] = scoreOrdenado[0] ?? ['', 0];
-        const [, segundoScore]       = scoreOrdenado[1] ?? ['', 0];
-        const margem = liderScore - segundoScore;
-
-        if (liderScore > 0 && margem >= 3) {
-            const mapaLider = {
-                familia:    MatrizSabedoria.familia,
-                superao:    MatrizSabedoria.superao,
-                trabalho:   MatrizSabedoria.work,
-                estudo:     MatrizSabedoria.estudo,
-                principios: MatrizSabedoria.principios,
-                saude:      MatrizSabedoria.saudeRotina,
-            };
-            selecionado = mapaLider[liderKey] ?? MatrizSabedoria.geral;
-        } else if (peso.familia > 0 && totalContextosAtivos > 1) {
-            if (peso.trabalho > 0 && peso.estudo > 0) {
+        // Regra de Ouro: Se a igreja estiver muito forte, assume o topo
+        if (detectou.principios && contagemPrincipios >= 2) {
+            selecionado = MatrizSabedoria.principios;
+        }
+        // 🚀 ANTI-BLOCKING DA MÃE: Se detectou família MAS também há trabalho ou estudo ativos, ela NÃO bloqueia. Vai para Geral/Misto.
+        else if (detectou.familia && (detectou.trabalho || detectou.estudo || detectou.principios || detectou.saude)) {
+            if (detectou.trabalho && detectou.estudo) {
                 selecionado = MatrizSabedoria.multiTrabalhoEstudo;
             } else {
                 selecionado = MatrizSabedoria.geral;
             }
-        } else if (peso.familia > 0 && totalContextosAtivos === 1) {
+        }
+        // Se a família estiver de fato ISOLADA na lista, exibe o card dela com honra
+        else if (detectou.familia) {
             selecionado = MatrizSabedoria.familia;
-        } else if (totalContextosAtivos > 0) {
-            if (peso.trabalho > 0 && peso.estudo > 0) {
-                selecionado = MatrizSabedoria.multiTrabalhoEstudo;
-            } else if (peso.principios >= 2) {
-                selecionado = MatrizSabedoria.principios;
-            } else if (totalContextosAtivos >= 3) {
-                selecionado = MatrizSabedoria.geral;
-            } else {
-                const mapaSimples = {
-                    superao:    MatrizSabedoria.superao,
-                    trabalho:   MatrizSabedoria.work,
-                    estudo:     MatrizSabedoria.estudo,
-                    principios: MatrizSabedoria.principios,
-                    saude:      MatrizSabedoria.saudeRotina,
-                };
-                selecionado = mapaSimples[liderKey] ?? MatrizSabedoria.geral;
-            }
-        } else {
-            selecionado = MatrizSabedoria.geral;
+        } 
+        else if (detectou.superao) {
+            selecionado = MatrizSabedoria.superao;
+        }
+        else if (detectou.trabalho && detectou.estudo) {
+            selecionado = MatrizSabedoria.multiTrabalhoEstudo;
+        } 
+        else if (detectou.trabalho) {
+            selecionado = MatrizSabedoria.trabalho;
+        }
+        else if (detectou.estudo) {
+            selecionado = MatrizSabedoria.estudo;
+        }
+        else if (detectou.principios) {
+            selecionado = MatrizSabedoria.principios;
+        }
+        else if (detectou.saude) {
+            selecionado = MatrizSabedoria.saudeRotina;
         }
     }
 
+    // Renderização segura no container HTML
     feedbackText.innerHTML = `
         <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
         <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
@@ -243,45 +250,43 @@ function gerenciarPainelSuperior() {
         } else if (hora >= 12 && hora < 18) {
             saudacaoElemento.textContent = "💡 Boa tarde, foco total!"
         } else {
-            saudacaoElemento.textContent = "🌙 Boa noite, planejamento active!"
+            saudacaoElemento.textContent = "🌙 Boa noite, planejamento ativo!"
         }
     }
 }
 
 // --- LÓGICA DE RECONHECIMENTO DE VOZ (MICROFONE) ---
 const btnMic = document.getElementById('btn-mic')
-if (btnMic) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
-    if (SpeechRecognition) {
-        const recognition = new SpeechRecognition()
-        recognition.lang = 'pt-BR'
-        recognition.continuous = false
-        recognition.interimResults = false
+if (SpeechRecognition) {
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'pt-BR'
+    recognition.continuous = false
+    recognition.interimResults = false
 
-        btnMic.addEventListener('click', () => {
-            recognition.start()
-            btnMic.style.backgroundColor = '#ff3b30' 
-            btnMic.textContent = "🛑"
-        })
+    btnMic.addEventListener('click', () => {
+        recognition.start()
+        btnMic.style.backgroundColor = '#ff3b30' 
+        btnMic.textContent = "🛑"
+    })
 
-        recognition.onresult = (event) => {
-            const transcricao = event.results[0][0].transcript
-            input.value = transcricao.replace(/\.$/g, '') 
-        }
-
-        recognition.onend = () => {
-            btnMic.style.backgroundColor = '#003329' 
-            btnMic.textContent = "🎤"
-        }
-
-        recognition.onerror = () => {
-            btnMic.style.backgroundColor = '#003329'
-            btnMic.textContent = "🎤"
-        }
-    } else {
-        btnMic.style.display = 'none'
+    recognition.onresult = (event) => {
+        const transcricao = event.results[0][0].transcript
+        input.value = transcricao.replace(/\.$/g, '') 
     }
+
+    recognition.onend = () => {
+        btnMic.style.backgroundColor = '#003329' 
+        btnMic.textContent = "🎤"
+    }
+
+    recognition.onerror = () => {
+        btnMic.style.backgroundColor = '#003329'
+        btnMic.textContent = "🎤"
+    }
+} else {
+    btnMic.style.display = 'none'
 }
 
 // --- INICIALIZAÇÃO DO SISTEMA ---
