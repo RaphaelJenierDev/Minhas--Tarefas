@@ -1,22 +1,15 @@
-const input = document.getElementById("campo-tarefa");
+const input = document.getElementById("input-tarefa");
 const button = document.getElementById("btn-adicionar");
 const listaCompleta = document.querySelector(".list-tasks");
 
 let lista = JSON.parse(localStorage.getItem("lista")) || [];
 
 function adicionar() {
-    if (!input.value.trim()) return;
-    lista.push({ tarefa: input.value, concluida: false });
+    if (input.value.trim() === "") return;
+    lista.push({ tarefa: input.value });
     input.value = "";
     salvar();
 }
-
-// O ENTER VAI FUNCIONAR AGORA
-input.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") adicionar();
-});
-
-button.addEventListener("click", adicionar);
 
 function salvar() {
     localStorage.setItem("lista", JSON.stringify(lista));
@@ -27,7 +20,7 @@ function renderizar() {
     listaCompleta.innerHTML = lista.map((item, index) => `
         <li class="task">
             <span>${item.tarefa}</span>
-            <img src="img/trash.png" onclick="deletar(${index})">
+            <button onclick="deletar(${index})">X</button>
         </li>
     `).join("");
 }
@@ -37,6 +30,17 @@ function deletar(index) {
     salvar();
 }
 
+// Evento do botão
+button.addEventListener("click", adicionar);
+
+// Evento do ENTER
+input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        adicionar();
+    }
+});
+
+// Relógio
 setInterval(() => {
     document.getElementById("relogio").textContent = new Date().toLocaleTimeString();
 }, 1000);
