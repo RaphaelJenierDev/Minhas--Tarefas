@@ -54,7 +54,7 @@ function recarregarTarefas() {
     mostrarTarefas()
 }
 
-// --- 🧠 ENGINE MASTERIZADA: CONSULTOR DE CONTEXTO REAL COM REGEX ---
+// --- 🧠 ENGINE SUPREMA: CONSULTOR EXECUTIVO, PSICOLÓGICO E DE PRINCÍPIOS ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
@@ -65,19 +65,12 @@ function atualizarConsultor() {
     let temSaudeOuRotina = false;
     let totalAtivas = 0;
 
-    // EXPRESSÕES REGULARES (REGEX): Inteligência tolerante a erros de digitação e variações
+    // REGEX: Detecção avançada de intenção
     const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar)/i;
-    
-    // Captura: estudar, estydar, estudando, ingles, inglês, codigo, código, cursor, dev, aula, etc.
-    const regexEstudo = /(est[ud]\|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|estydar)/i;
-    
-    // Captura: igreja, celula, celuça, culto, oração, pastor, comunhão
+    const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|estydar)/i;
     const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh)/i;
-    
-    // Captura: acucar, açúcar, comprar, mercado, delivery, ifood, comida, treino, academia, moto
     const regexSaudeRotina = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida)/i;
 
-    // Escaneamento inteligente da lista
     minhaListaDeItens.forEach(item => {
         if (!item.concluida) {
             totalAtivas++;
@@ -90,43 +83,72 @@ function atualizarConsultor() {
         }
     });
 
-    // ARQUITETURA DE DECISÃO DO COACH (Ordem de Prioridade Estratégica)
-    if (minhaListaDeItens.length === 0) {
-        feedbackText.innerHTML = "🎯 <strong>Quadro limpo, Guerreiro!</strong> Sua esteira de foco está vazia. Adicione o seu próximo bloco de estudos ou prospecção para manter o sangue quente.";
-        feedbackText.parentElement.style.borderColor = "#00d4ff33";
-        feedbackText.style.color = "#00d4ff";
-    } 
-    else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
-        feedbackText.innerHTML = "🏆 <strong>Entrega Concluída com Sucesso!</strong> Todas as metas desse bloco foram batidas. Vá descansar, produzir uma faixa de Trap ou registrar esse marco no ClickUp.";
-        feedbackText.parentElement.style.borderColor = "#06d6a055";
-        feedbackText.style.color = "#06d6a0";
-    } 
-    else if (temTrabalho) {
-        feedbackText.innerHTML = "💼 <strong>Foco no Faturamento:</strong> Metas comerciais ativas. Execute com precisão cirúrgica, garanta a entrega e use esse resultado para consolidar seu know-how no mercado.";
-        feedbackText.parentElement.style.borderColor = "#00d4ffaa"; 
-        feedbackText.style.color = "#00d4ff";
-    } 
-    else if (temEstudo) {
-        feedbackText.innerHTML = "🚀 <strong>Upgrade de Know-How:</strong> Bloco de aprendizado ativo. Não acumule apenas teoria: termine o código, abra o CapCut Pro e gere seu vídeo de 1 minuto para blindar seu portfólio vivo.";
-        feedbackText.parentElement.style.borderColor = "#06d6a077"; 
-        feedbackText.style.color = "#06d6a0";
-    } 
-    else if (temPrincipios) {
-        // NOVO PILAR: Valores, Ecossistema de Apoio e Alinhamento Espiritual
-        feedbackText.innerHTML = "🛡️ <strong>Âncora de Propósito:</strong> Momento focado na sua base, nos valores e na comunhão. Proteja esse tempo na igreja/célula, pois é ele que renova a mentalidade para sustentar os negócios.";
-        feedbackText.parentElement.style.borderColor = "#9d4edd77"; // Roxo/Púrpura Executivo de Princípios
-        feedbackText.style.color = "#c8b6ff";
-    } 
-    else if (temSaudeOuRotina) {
-        feedbackText.innerHTML = "🍏 <strong>Logística de Performance:</strong> Gerenciar as rotinas de entrega de forma segura é o que mantém o corpo pronto para o rojão. Proteja sua saúde nas ruas para render no laboratório.";
-        feedbackText.parentElement.style.borderColor = "#ffb70377"; 
-        feedbackText.style.color = "#ffb703";
-    } 
-    else {
-        feedbackText.innerHTML = "🧭 <strong>Direcionamento Ativo:</strong> Tarefas pendentes no painel. Administre bem as horas para não vazar tempo e proteja o seu bloco de lazer e música hoje.";
-        feedbackText.parentElement.style.borderColor = "#ffffff22";
-        feedbackText.style.color = "#ffffff";
-    }
+    // BANCO DE DADOS DE SABEDORIA (Psicologia Aplicada + Fundamento da Fé)
+    const BaseSabedoria = {
+        quadroLimpo: {
+            titulo: "🎯 Esteira Pronta",
+            texto: "Sua lista está limpa. Psicologicamente, a ausência de microtarefas reduz a ansiedade de curto prazo. Aproveite essa clareza mental para projetar estrategicamente seus próximos passos comerciais.",
+            versiculo: "<strong>Provérbios 16:3</strong> - 'Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos.'",
+            borda: "#00d4ff33", textoCor: "#00d4ff"
+        },
+        sucessoTotal: {
+            titulo: "🏆 Vitória de Execução",
+            texto: "Todas as metas do bloco foram batidas. Concluir tarefas libera picos de dopamina saudáveis, gerando sensação de competência. É hora de desacelerar a mente, celebrar o progresso e proteger seu descanso.",
+            versiculo: "<strong>Eclesiastes 3:13</strong> - 'Descobri também que a melhor coisa que o homem pode fazer é comer, beber e desfrutar do resultado do seu trabalho duro. Isso é um presente de Deus.'",
+            borda: "#06d6a055", textoCor: "#06d6a0"
+        },
+        trabalho: {
+            titulo: "💼 Operação & Faturamento",
+            texto: "Metas de negócio ativas exigem alta energia analítica. A ansiedade por fechar contratos ou entregar projetos deve ser canalizada em foco operacional na execução. Evite focar no acúmulo de tarefas e controle o que está nas suas mãos.",
+            versiculo: "<strong>Colossenses 3:23</strong> - 'Tudo o que fizerem, façam de todo o coração, como para o Senhor, e não para os homens.'",
+            borda: "#00d4ffaa", textoCor: "#00d4ff"
+        },
+        estudo: {
+            titulo: "🚀 Construção de Know-How",
+            texto: "Aprender algo novo gera a sensação temporária de desconforto porque o cérebro está criando novas conexões. Não caia na armadilha da pressa; a consistência diária vence a intensidade. Documente o progresso.",
+            versiculo: "<strong>Provérbios 1:5</strong> - 'O sábio escute e aumente o seu saber, e o homem de entendimento adquira habilidade.'",
+            borda: "#06d6a077", textoCor: "#06d6a0"
+        },
+        principios: {
+            titulo: "🛡️ Alinhamento de Base",
+            texto: "A rotina na comunidade e na igreja desacelera o ritmo acelerado do mercado. Psicologicamente, o pertencimento e o foco no coletivo renovam a inteligência emocional e blindam a mente contra pressões externas.",
+            versiculo: "<strong>Salmos 133:1</strong> - 'Como é bom e agradável quando os irmãos convivem em união!'",
+            borda: "#9d4edd77", textoCor: "#c8b6ff"
+        },
+        saudeRotina: {
+            titulo: "🍏 Logística e Integridade",
+            texto: "O cansaço físico das rotinas operacionais ou de trânsito afeta diretamente o poder de tomada de decisão. Trate o seu corpo como o principal ativo da sua empresa. Se o corpo falhar, a operação para.",
+            versiculo: "<strong>1 Coríntios 6:19</strong> - 'Acaso não sabem que o corpo de vocês é santuário do Espírito Santo...?'",
+            borda: "#ffb70377", textoCor: "#ffb703"
+        },
+        geral: {
+            titulo: "🧭 Direcionamento Geral",
+            texto: "Tarefas mistas exigem alternância de foco. Faça uma coisa por vez para evitar a sobrecarga mental de alternância de contexto (context-switching). Proteja suas horas de recarga.",
+            versiculo: "<strong>Filipenses 4:6</strong> - 'Não andem ansiosos por coisa alguma, mas em tudo apresentem os seus pedidos a Deus.'",
+            borda: "#ffffff22", textoCor: "#ffffff"
+        }
+    };
+
+    // SELEÇÃO DE CONTEXTO
+    let contexto = BaseSabedoria.geral;
+    
+    if (minhaListaDeItens.length === 0) contexto = BaseSabedoria.quadroLimpo;
+    else if (totalAtivas === 0 && minhaListaDeItens.length > 0) contexto = BaseSabedoria.sucessoTotal;
+    else if (temTrabalho) contexto = BaseSabedoria.trabalho;
+    else if (temEstudo) contexto = BaseSabedoria.estudo;
+    else if (temPrincipios) contexto = BaseSabedoria.principios;
+    else if (temSaudeOuRotina) contexto = BaseSabedoria.saudeRotina;
+
+    // RENDERIZAÇÃO DA INTELIGÊNCIA NA TELA
+    feedbackText.innerHTML = `
+        <span style="font-weight: 700; color: ${contexto.textoCor}; display: block; margin-bottom: 5px;">${contexto.titulo}</span>
+        <span style="display: block; margin-bottom: 10px; color: #e0e0e0; font-style: normal;">${contexto.texto}</span>
+        <hr style="border: 0; border-top: 1px dashed ${contexto.borda}; margin: 8px 0;">
+        <span style="display: block; color: #b3f0ff; font-size: 12px; line-height: 1.4; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px;">
+            🙏 ${contexto.versiculo}
+        </span>
+    `;
+    feedbackText.parentElement.style.borderColor = contexto.borda;
 }
 
 // --- LÓGICA DO RELÓGIO LED INTELIGENTE E DATA ---
