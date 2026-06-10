@@ -1,99 +1,33 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    outline: none;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; outline: none; }
+
+body { background: url("/img/background.png"); }
+
+.container { background-color: #63d8fc; width: 500px; border-radius: 10px; padding: 20px; margin: 100px auto 0; }
+
+#relogio { 
+    color: #ffffff; 
+    font-weight: 300; 
+    text-align: center; 
+    margin-bottom: 15px; 
+    font-size: 1.1rem; 
+    opacity: 0.8; 
 }
 
-body {
-    background: url("/img/background.png");
-}
+.input-task { border: none; border-radius: 5px; width: 300px; height: 40px; padding-left: 10px; }
 
-.container {
-    background-color: #63d8fc;
-    width: 500px;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 100px auto 0;
-}
-
-.input-task {
-    border: none;
-    border-radius: 5px;
-    width: 300px;
-    height: 40px;
-    padding-left: 10px;
-}
-
-.button-add-task {
-    border: none;
-    border-radius: 5px;
-    height: 40px;
-    background-color: #003329;
-    color: #ffffff;
-    font-size: 17px;
-    padding: 0 15px;
-    float: right;
-    cursor: pointer;
-    font-weight: 700;
-}
-
+.button-add-task { border: none; border-radius: 5px; height: 40px; background-color: #003329; color: #ffffff; font-size: 17px; padding: 0 15px; float: right; cursor: pointer; font-weight: 700; }
 .button-add-task:hover { opacity: 0.8; }
-.button-add-task:active { opacity: 0.6; }
 
-/* Estilo dos Botões de Filtro */
-.filters {
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-}
-
-.filters button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #003329;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-
+.filters { margin: 20px 0; display: flex; gap: 10px; }
+.filters button { padding: 8px 16px; border: none; border-radius: 5px; background-color: #003329; color: white; cursor: pointer; font-weight: bold; }
 .filters button:hover { opacity: 0.8; }
 
-.list-tasks {
-    width: 100%;
-    list-style: none;
-    margin-top: 10px; /* Ajustado para dar espaço após os filtros */
-}
+.list-tasks { width: 100%; list-style: none; margin-top: 10px; }
 
-.task {
-    background-color: #F2F2F2;
-    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
+.task { background-color: #F2F2F2; box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2); height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-radius: 5px; margin-bottom: 20px; }
 
-img {
-    height: 25px;
-    cursor: pointer; /* Adicionado para indicar que são clicáveis */
-    opacity: 0.5;    /* Alterado de 0 para 0.5 para serem visíveis mas discretos */
-    transition: opacity 0.3s;
-}
-
+img { height: 25px; cursor: pointer; opacity: 0.5; transition: opacity 0.3s; }
 .task:hover img { opacity: 1; }
 
-/* Ajuste da classe .done */
-.done {
-    background-color: #8fac55;
-}
-
-.done p {
-    text-decoration: line-through;
-    color: #444;
-}
+.done { background-color: #8fac55; }
+.done p { text-decoration: line-through; color: #444; }
