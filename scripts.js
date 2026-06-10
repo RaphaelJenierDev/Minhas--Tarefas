@@ -5,7 +5,7 @@ const listaCompleta = document.querySelector('.list-tasks')
 let minhaListaDeItens = []
 
 // --- SUA CHAVE DO GOOGLE AI STUDIO (COLOQUE AQUI) ---
-const GEMINI_API_KEY = "AIzaSyCxP6upYJiFxeFrqM-zAsR5Hkqf6wkrwFU"; 
+const GEMINI_API_KEY = "SUA_API_KEY_AQUI"; 
 
 // --- LÓGICA DE GERENCIAMENTO DE TAREFAS ---
 function adicionarNovaTarefa() {
