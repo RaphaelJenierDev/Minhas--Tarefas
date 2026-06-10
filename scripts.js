@@ -2,53 +2,59 @@ const button = document.querySelector('.button-add-task');
 const input = document.querySelector('.input-task');
 const listaCompleta = document.querySelector('.list-tasks');
 
-let lista = JSON.parse(localStorage.getItem('lista')) || [];
-let filtro = 'todas';
+let minhaListaDeItens = JSON.parse(localStorage.getItem('lista')) || [];
+let filtroAtual = 'todas';
 
-function renderizar() {
-    listaCompleta.innerHTML = lista
-        .filter(item => filtro === 'todas' || !item.concluida)
-        .map((item, index) => `
+function salvarTarefas() {
+    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
+}
+
+function mostrarTarefas() {
+    let novaLi = '';
+    minhaListaDeItens.forEach((item, posicao) => {
+        if (filtroAtual === 'pendentes' && item.concluida) return;
+        novaLi += `
             <li class="task ${item.concluida ? 'done' : ''}">
-                <img src="img/checked.png" onclick="toggleConcluir(${index})">
+                <img src="img/checked.png" onclick="concluirTarefa(${posicao})">
                 <p>${item.tarefa}</p>
-                <img src="img/trash.png" onclick="deletar(${index})">
+                <img src="img/trash.png" onclick="deletarItem(${posicao})">
             </li>
-        `).join('');
+        `;
+    });
+    listaCompleta.innerHTML = novaLi;
 }
 
-function adicionar() {
-    if (!input.value.trim()) return;
-    lista.push({ tarefa: input.value, concluida: false });
+function adicionarNovaTarefa() {
+    if (input.value.trim() === '') return;
+    minhaListaDeItens.push({ tarefa: input.value, concluida: false });
     input.value = '';
-    salvar();
+    salvarTarefas();
+    mostrarTarefas();
 }
 
-function toggleConcluir(index) {
-    lista[index].concluida = !lista[index].concluida;
-    salvar();
+function concluirTarefa(posicao) {
+    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
+    salvarTarefas();
+    mostrarTarefas();
 }
 
-function deletar(index) {
-    lista.splice(index, 1);
-    salvar();
-}
-
-function salvar() {
-    localStorage.setItem('lista', JSON.stringify(lista));
-    renderizar();
+function deletarItem(posicao) {
+    minhaListaDeItens.splice(posicao, 1);
+    salvarTarefas();
+    mostrarTarefas();
 }
 
 function filtrarTarefas(tipo) {
-    filtro = tipo;
-    renderizar();
+    filtroAtual = tipo;
+    mostrarTarefas();
 }
 
+// Relógio
 setInterval(() => {
     document.getElementById('relogio').textContent = new Date().toLocaleTimeString();
 }, 1000);
 
-button.addEventListener("click", adicionar);
-input.addEventListener("keypress", (e) => e.key === 'Enter' && adicionar());
+button.addEventListener("click", adicionarNovaTarefa);
+input.addEventListener("keydown", (e) => { if (e.key === "Enter") adicionarNovaTarefa(); });
 
-renderizar();
+mostrarTarefas();
