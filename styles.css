@@ -1,19 +1,20 @@
-body { background: #021726; display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: sans-serif; }
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0f172a;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
 
-.brand-logo { width: 150px; height: auto; margin-bottom: 20px; }
+.container {
+    background-color: #7dd3fc;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+}
 
-.dashboard { width: 400px; }
-
-.clock-panel { color: white; text-align: center; font-size: 40px; margin-bottom: 20px; }
-
-.task-card { background: #63d8fc; padding: 20px; border-radius: 10px; }
-
-.input-area { display: flex; gap: 5px; margin-bottom: 15px; }
-
-#input-tarefa { flex: 1; height: 35px; border-radius: 5px; border: none; padding-left: 10px; }
-
-#btn-adicionar { background: #003329; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-
-.list-tasks { list-style: none; }
-
-.task { background: white; padding: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
+.input-task {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
