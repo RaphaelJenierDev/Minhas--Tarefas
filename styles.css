@@ -1,76 +1,83 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+}
+
+body{
+    background: url("/img/background.png");
+}
+
 .container {
     background-color: #63d8fc;
     width: 500px;
     border-radius: 10px;
     padding: 20px;
-    margin: 50px auto; /* Centraliza o painel */
-    text-align: center;
-}
-
-.clock-panel {
-    font-size: 2rem;
-    color: #003329;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.input-wrapper {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-    margin-bottom: 20px;
+    margin: 100px auto 0;
 }
 
 .input-task {
-    flex: 1; /* Faz o input ocupar o espaço disponível */
+    border: none;
+    border-radius: 5px;
+    width: 300px;
     height: 40px;
     padding-left: 10px;
-    border: none;
-    border-radius: 5px;
-}
-
-#btn-mic {
-    padding: 0 10px;
-    cursor: pointer;
-    background: white;
-    border: none;
-    border-radius: 5px;
 }
 
 .button-add-task {
+    border: none;
+    border-radius: 5px;
     height: 40px;
     background-color: #003329;
-    color: white;
-    border: none;
+    color: #ffffff;
+    font-size: 17px;
     padding: 0 15px;
+    float: right;
     cursor: pointer;
+    font-weight: 700;
+}
+
+.button-add-task:hover {
+    opacity: 0.8;
+}
+
+.button-add-task:active {
+    opacity: 0.6;
+}
+
+.list-tasks {
+    width: 100%;
+    list-style: none;
+    margin-top: 30px;
+}
+
+.task {
+    background-color: #F2F2F2;
+    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
     border-radius: 5px;
-    font-weight: bold;
-}
-/* Container do Relógio com efeito LED suave */
-.header-dashboard {
-    text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
 }
 
-#saudacao {
-    color: #63d8fc;
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+img {
+    height: 25px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.clock-panel {
-    font-family: 'Orbitron', monospace; /* Fonte tech */
-    font-size: 3.5rem;
-    color: #00ffcc; /* Verde ciano LED */
-    text-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 15px;
-    display: inline-block;
+.task:hover img {
+    opacity: 1;
 }
 
-/* Esconde o rodapé poluidor */
-.footer-text { display: none !important; }
+.done {
+    background-color: #8fac55;
+    text-decoration: line-through;
+}
