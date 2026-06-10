@@ -1,36 +1,65 @@
-const button = document.querySelector('.button-add-task');
-const input = document.querySelector('.input-task');
-const listaCompleta = document.querySelector('.list-tasks');
+const button = document.querySelector('.button-add-task')
+const input = document.querySelector('.input-task')
+const listaCompleta = document.querySelector('.list-tasks')
 
-let minhaListaDeItens = [];
+let minhaListaDeItens = []
 
 function adicionarNovaTarefa() {
-    if (input.value.trim() === "") return;
-    minhaListaDeItens.push(input.value);
-    input.value = "";
-    mostrarTarefas();
+  minhaListaDeItens.push({
+    tarefa: input.value,
+    concluida: false,
+  })
+
+  input.value = ''
+
+  mostrarTarefas()
 }
 
 function mostrarTarefas() {
-    let novaLi = "";
-    minhaListaDeItens.forEach((item, index) => {
-        novaLi += `
-            <li class="task">
-                <img src="img/checked.png" alt="check">
-                <p>${item}</p>
-                <img src="img/trash.png" alt="deletar" onclick="deletarItem(${index})">
-            </li>
-        `;
-    });
-    listaCompleta.innerHTML = novaLi;
+  let novaLi = ''
+
+  // ['comprar café', 'estudar programação']
+
+  minhaListaDeItens.forEach((item, posicao) => {
+    novaLi =
+      novaLi +
+      `
+
+        <li class="task ${item.concluida && 'done'}">
+            <img src="./img/checked.png" alt="check-na-tarefa" onclick="concluirTarefa(${posicao})">
+            <p>${item.tarefa}</p>
+            <img src="./img/trash.png" alt="tarefa-para-o-lixo" onclick="deletarItem(${posicao})">
+        </li>
+        
+        `
+  })
+
+  listaCompleta.innerHTML = novaLi
+
+  localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
 }
 
-function deletarItem(index) {
-    minhaListaDeItens.splice(index, 1);
-    mostrarTarefas();
+function concluirTarefa(posicao) {
+  minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida
+
+  mostrarTarefas()
 }
 
-button.addEventListener("click", adicionarNovaTarefa);
-input.addEventListener("keypress", (e) => { 
-    if (e.key === "Enter") adicionarNovaTarefa(); 
-});
+function deletarItem(posicao) {
+  minhaListaDeItens.splice(posicao, 1)
+
+  mostrarTarefas()
+}
+
+function recarregarTarefas() {
+  const tarefasDoLocalStorage = localStorage.getItem('lista')
+
+  if (tarefasDoLocalStorage) {
+    minhaListaDeItens = JSON.parse(tarefasDoLocalStorage)
+  }
+
+  mostrarTarefas()
+}
+
+recarregarTarefas()
+button.addEventListener('click', adicionarNovaTarefa)
