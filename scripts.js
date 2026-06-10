@@ -4,54 +4,31 @@ const listaCompleta = document.querySelector('.list-tasks');
 
 let minhaListaDeItens = [];
 
-// Função que adiciona na memória e atualiza a tela
 function adicionarNovaTarefa() {
-    if (input.value.trim() === '') return; // Não adiciona vazio
-    
-    minhaListaDeItens.push({
-        tarefa: input.value,
-        concluida: false
-    });
-    
-    input.value = ''; // Limpa o campo
+    if (input.value.trim() === "") return;
+    minhaListaDeItens.push(input.value);
+    input.value = "";
     mostrarTarefas();
 }
 
-// Função que desenha as tarefas na tela (o coração do projeto)
 function mostrarTarefas() {
-    let novaLi = '';
-
-    minhaListaDeItens.forEach((item, posicao) => {
+    let novaLi = "";
+    minhaListaDeItens.forEach((item, index) => {
         novaLi += `
-            <li class="task ${item.concluida ? 'done' : ''}">
-                <img src="./img/checked.png" onclick="concluirTarefa(${posicao})">
-                <p>${item.tarefa}</p>
-                <img src="./img/trash.png" onclick="deletarItem(${posicao})">
+            <li class="task">
+                <img src="img/checked.png" alt="check">
+                <p>${item}</p>
+                <img src="img/trash.png" alt="deletar" onclick="deletarItem(${index})">
             </li>
         `;
     });
-
     listaCompleta.innerHTML = novaLi;
 }
 
-// Função para marcar como concluída
-function concluirTarefa(posicao) {
-    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
+function deletarItem(index) {
+    minhaListaDeItens.splice(index, 1);
     mostrarTarefas();
 }
 
-// Função para deletar
-function deletarItem(posicao) {
-    minhaListaDeItens.splice(posicao, 1);
-    mostrarTarefas();
-}
-
-// Evento do clique no botão
 button.addEventListener("click", adicionarNovaTarefa);
-
-// Evento do Enter no teclado
-input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        adicionarNovaTarefa();
-    }
-});
+input.addEventListener("keypress", (e) => { if (e.key === "Enter") adicionarNovaTarefa(); });
