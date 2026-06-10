@@ -1,8 +1,15 @@
 const button = document.querySelector(".button-add-task");
-const input = document.querySelector(".input-task");
+const input = document.getElementById("input-tarefa");
 const listaCompleta = document.querySelector(".list-tasks");
 
 let minhaLista = JSON.parse(localStorage.getItem("lista")) || [];
+
+function adicionar() {
+    if (!input.value.trim()) return;
+    minhaLista.push({ tarefa: input.value, concluida: false });
+    input.value = "";
+    salvarEMostrar();
+}
 
 function salvarEMostrar() {
     localStorage.setItem("lista", JSON.stringify(minhaLista));
@@ -19,23 +26,17 @@ function mostrarTarefas() {
     `).join("");
 }
 
-function adicionar() {
-    if (!input.value.trim()) return;
-    minhaLista.push({ tarefa: input.value, concluida: false });
-    input.value = "";
-    salvarEMostrar();
-}
-
-// O ENTER VAI FUNCIONAR AGORA
-input.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") adicionar();
+// CORREÇÃO DO ENTER
+input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        adicionar();
+    }
 });
 
 button.addEventListener("click", adicionar);
 
-// Relógio original que você gosta
 setInterval(() => {
-    document.getElementById("relogio").textContent = new Date().toLocaleTimeString();
+    document.getElementById("relogio").textContent = new Date().toLocaleTimeString('pt-BR');
 }, 1000);
 
 mostrarTarefas();
