@@ -2,62 +2,53 @@ const button = document.querySelector('.button-add-task');
 const input = document.querySelector('.input-task');
 const listaCompleta = document.querySelector('.list-tasks');
 
-let minhaListaDeItens = JSON.parse(localStorage.getItem('lista')) || [];
-let filtroAtual = 'todas';
+let lista = JSON.parse(localStorage.getItem('lista')) || [];
+let filtro = 'todas';
 
-function salvarTarefas() {
-    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
+function renderizar() {
+    listaCompleta.innerHTML = lista
+        .filter(item => filtro === 'todas' || !item.concluida)
+        .map((item, index) => `
+            <li class="task ${item.concluida ? 'done' : ''}">
+                <img src="img/checked.png" onclick="toggleConcluir(${index})">
+                <p>${item.tarefa}</p>
+                <img src="img/trash.png" onclick="deletar(${index})">
+            </li>
+        `).join('');
 }
 
-function adicionarNovaTarefa() {
-    if (input.value.trim() === '') return;
-    minhaListaDeItens.push({ tarefa: input.value, concluida: false });
+function adicionar() {
+    if (!input.value.trim()) return;
+    lista.push({ tarefa: input.value, concluida: false });
     input.value = '';
-    salvarTarefas();
-    mostrarTarefas();
+    salvar();
+}
+
+function toggleConcluir(index) {
+    lista[index].concluida = !lista[index].concluida;
+    salvar();
+}
+
+function deletar(index) {
+    lista.splice(index, 1);
+    salvar();
+}
+
+function salvar() {
+    localStorage.setItem('lista', JSON.stringify(lista));
+    renderizar();
 }
 
 function filtrarTarefas(tipo) {
-    filtroAtual = tipo;
-    mostrarTarefas();
+    filtro = tipo;
+    renderizar();
 }
 
-function mostrarTarefas() {
-    let novaLi = '';
-    minhaListaDeItens.forEach((item, posicao) => {
-        if (filtroAtual === 'pendentes' && item.concluida) return;
-        novaLi += `
-            <li class="task ${item.concluida ? 'done' : ''}">
-                <img src="img/checked.png" onclick="concluirTarefa(${posicao})">
-                <p>${item.tarefa}</p>
-                <img src="img/trash.png" onclick="deletarItem(${posicao})">
-            </li>
-        `;
-    });
-    listaCompleta.innerHTML = novaLi;
-}
+setInterval(() => {
+    document.getElementById('relogio').textContent = new Date().toLocaleTimeString();
+}, 1000);
 
-function concluirTarefa(posicao) {
-    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
-    salvarTarefas();
-    mostrarTarefas();
-}
+button.addEventListener("click", adicionar);
+input.addEventListener("keypress", (e) => e.key === 'Enter' && adicionar());
 
-function deletarItem(posicao) {
-    minhaListaDeItens.splice(posicao, 1);
-    salvarTarefas();
-    mostrarTarefas();
-}
-
-// --- RELÓGIO ---
-function atualizarRelogio() {
-    const agora = new Date();
-    document.getElementById('relogio').textContent = agora.toLocaleTimeString();
-}
-setInterval(atualizarRelogio, 1000);
-atualizarRelogio();
-
-button.addEventListener("click", adicionarNovaTarefa);
-input.addEventListener("keydown", (e) => { if (e.key === "Enter") adicionarNovaTarefa(); });
-
-mostrarTarefas();
+renderizar();
