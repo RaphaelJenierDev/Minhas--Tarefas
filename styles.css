@@ -1,24 +1,83 @@
-/* Limpeza geral */
-* { margin: 0; padding: 0; box-sizing: border-box; }
 
-body { background: #021726; display: flex; justify-content: center; padding-top: 50px; font-family: sans-serif; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+}
 
-.container { background: white; width: 400px; padding: 20px; border-radius: 8px; }
+body{
+    background: url("/img/background.png");
+}
 
-.input-task { width: 70%; height: 40px; padding-left: 10px; }
+.container {
+    background-color: #63d8fc;
+    width: 500px;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 100px auto 0;
+}
 
-.button-add-task { width: 25%; height: 40px; background: #003329; color: white; border: none; cursor: pointer; }
+.input-task {
+    border: none;
+    border-radius: 5px;
+    width: 300px;
+    height: 40px;
+    padding-left: 10px;
+}
 
-.list-tasks { list-style: none; margin-top: 20px; }
+.button-add-task {
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    background-color: #003329;
+    color: #ffffff;
+    font-size: 17px;
+    padding: 0 15px;
+    float: right;
+    cursor: pointer;
+    font-weight: 700;
+}
 
-.task { background: #fff; padding: 10px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; }
+.button-add-task:hover {
+    opacity: 0.8;
+}
 
-/* A correção dos ícones gigantes está aqui */
-.task img { width: 25px; height: 25px; cursor: pointer; }
+.button-add-task:active {
+    opacity: 0.6;
+}
 
-/* Corrige o tamanho dos ícones de check e lixeira */
-.task img { 
-    width: 25px !important; 
-    height: 25px !important; 
-    cursor: pointer; 
+.list-tasks {
+    width: 100%;
+    list-style: none;
+    margin-top: 30px;
+}
+
+.task {
+    background-color: #F2F2F2;
+    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+img {
+    height: 25px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.task:hover img {
+    opacity: 1;
+}
+
+.done {
+    background-color: #8fac55;
+    text-decoration: line-through;
 }
