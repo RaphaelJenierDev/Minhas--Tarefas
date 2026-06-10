@@ -4,22 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>JenierSolucoes - Todo list</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <title>Jenier Soluções - Painel de Produtividade</title>
 </head>
 <body>
+    <div class="brand-header">
+        <img src="URL_DA_SUA_FOTO_CARTOON_AQUI" alt="Influenciadores Jenier" class="brand-img">
+    </div>
+
     <div class="container">
-        <div id="relogio">00:00:00</div>
+        <div class="clock-panel">
+            <span id="relogio">00:00:00</span>
+        </div>
         
-        <input class="input-task" placeholder="O que tenho que fazer...">
-        <button class="button-add-task">Adicionar</button>
+        <div class="input-section">
+            <input class="input-task" placeholder="O que vamos realizar hoje?">
+            <button class="button-add-task">Adicionar</button>
+        </div>
 
         <div class="filters">
-            <button onclick="filtrarTarefas('todas')">Todas</button>
-            <button onclick="filtrarTarefas('pendentes')">Pendentes</button>
+            <button class="btn-filter" onclick="filtrarTarefas('todas')">Todas</button>
+            <button class="btn-filter" onclick="filtrarTarefas('pendentes')">Pendentes</button>
         </div>
 
         <ul class="list-tasks"></ul>
     </div>
+
     <script src="scripts.js"></script>
 </body>
 </html>
