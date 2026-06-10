@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +6,7 @@
     outline: none;
 }
 
-body{
+body {
     background: url("/img/background.png");
 }
 
@@ -40,18 +39,32 @@ body{
     font-weight: 700;
 }
 
-.button-add-task:hover {
-    opacity: 0.8;
+.button-add-task:hover { opacity: 0.8; }
+.button-add-task:active { opacity: 0.6; }
+
+/* Estilo dos Botões de Filtro */
+.filters {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
 }
 
-.button-add-task:active {
-    opacity: 0.6;
+.filters button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #003329;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
 }
+
+.filters button:hover { opacity: 0.8; }
 
 .list-tasks {
     width: 100%;
     list-style: none;
-    margin-top: 30px;
+    margin-top: 10px; /* Ajustado para dar espaço após os filtros */
 }
 
 .task {
@@ -64,20 +77,23 @@ body{
     padding: 0 15px;
     border-radius: 5px;
     margin-bottom: 20px;
-    cursor: pointer;
 }
 
 img {
     height: 25px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    cursor: pointer; /* Adicionado para indicar que são clicáveis */
+    opacity: 0.5;    /* Alterado de 0 para 0.5 para serem visíveis mas discretos */
+    transition: opacity 0.3s;
 }
 
-.task:hover img {
-    opacity: 1;
-}
+.task:hover img { opacity: 1; }
 
+/* Ajuste da classe .done */
 .done {
     background-color: #8fac55;
+}
+
+.done p {
     text-decoration: line-through;
+    color: #444;
 }
