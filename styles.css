@@ -1,113 +1,209 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; outline: none; }
+body{
 
-body { 
-    background: url("/img/background.png") no-repeat center center fixed; 
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        #021726,
+        #03243b,
+        #00111d
+    );
+
+    font-family:'Roboto',sans-serif;
+
+    overflow-x:hidden;
 }
 
-/* Foto dos Influenciadores */
-.brand-header {
-    margin-bottom: -30px; /* Sobrepõe levemente o container */
-    z-index: 2;
+.dashboard{
+
+    width:900px;
+    position:relative;
 }
 
-.brand-img {
-    width: 250px;
-    height: auto;
-    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.3));
+.clock-header{
+
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:25px;
 }
 
-.container { 
-    background-color: #63d8fc; 
-    width: 500px; 
-    border-radius: 20px; 
-    padding: 30px; 
-    box-shadow: 0px 20px 40px rgba(0,0,0,0.4);
-    z-index: 1;
+.clock-box{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
 
-/* --- O NOVO PAINEL DO RELÓGIO --- */
-.clock-panel {
-    background-color: #003329; /* O verde escuro da marca */
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    border: 2px solid #ffffff44;
-    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);
-    text-align: center;
+#hora{
+
+    color:white;
+
+    font-size:72px;
+
+    font-family:'Orbitron',sans-serif;
+
+    text-shadow:
+    0 0 15px #4ddfff,
+    0 0 25px #4ddfff;
 }
 
-#relogio { 
-    color: #ffffff; 
-    font-family: 'Orbitron', sans-serif; /* Fonte estilo digital */
-    font-size: 2rem;
-    letter-spacing: 3px;
-    text-shadow: 0px 0px 8px rgba(255,255,255,0.6);
+.period-box{
+
+    display:flex;
+    flex-direction:column;
 }
 
-.input-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+#periodo{
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:bold;
 }
 
-.input-task { 
-    border: none; 
-    border-radius: 8px; 
-    flex: 1;
-    height: 45px; 
-    padding-left: 15px; 
-    font-size: 1rem;
+.pulse{
+
+    width:18px;
+    height:18px;
+
+    border-radius:50%;
+
+    background:#5cecff;
+
+    box-shadow:
+    0 0 10px #5cecff,
+    0 0 20px #5cecff,
+    0 0 40px #5cecff;
 }
 
-.button-add-task { 
-    border: none; 
-    border-radius: 8px; 
-    height: 45px; 
-    background-color: #003329; 
-    color: #ffffff; 
-    padding: 0 20px; 
-    margin-left: 10px;
-    cursor: pointer; 
-    font-weight: 700;
-    transition: transform 0.2s;
+.task-card{
+
+    position:relative;
+
+    background:
+    rgba(125,223,255,.18);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    border-radius:30px;
+
+    padding:40px;
+
+    box-shadow:
+    0 0 40px rgba(77,223,255,.35);
+
+    overflow:visible;
 }
 
-.button-add-task:hover { transform: scale(1.05); }
+.photo-wrapper{
 
-.filters { display: flex; gap: 10px; margin-bottom: 20px; }
+    position:absolute;
 
-.btn-filter { 
-    flex: 1;
-    padding: 10px; 
-    border: none; 
-    border-radius: 8px; 
-    background-color: #003329; 
-    color: white; 
-    cursor: pointer; 
-    font-weight: bold;
+    right:-80px;
+
+    top:-60px;
 }
 
-.list-tasks { list-style: none; }
+.photo-team{
 
-.task { 
-    background-color: #F2F2F2; 
-    height: 55px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 0 15px; 
-    border-radius: 10px; 
-    margin-bottom: 15px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:5px solid #89eeff;
+
+    box-shadow:
+    0 0 20px #89eeff,
+    0 0 40px #89eeff,
+    0 0 70px #89eeff;
 }
 
-img { height: 28px; cursor: pointer; transition: 0.3s; }
-img:hover { transform: scale(1.2); }
+.input-area{
 
-.done { background-color: #8fac55; border: 1px solid #ffffff; }
-.done p { text-decoration: line-through; color: #333; }
+    display:flex;
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.input-task{
+
+    flex:1;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding-left:20px;
+}
+
+.button-add-task{
+
+    width:160px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#003329;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.filters{
+
+    display:flex;
+    gap:10px;
+
+    margin-bottom:20px;
+}
+
+.filters button{
+
+    background:#003329;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.task{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
