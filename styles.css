@@ -1,11 +1,4 @@
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    outline: none;
-}* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -14,58 +7,114 @@
 }
 
 body {
-    background: url("/img/background.png") no-repeat center center fixed;
+    background: url("./img/background.png") no-repeat center center fixed;
     background-size: cover;
-    background-color: #0d1b2a; /* Fallback caso a imagem falhe */
+    background-color: #0d1b2a; /* Fallback de segurança */
     min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-/* Centralizador do ecossistema do Dashboard */
+/* Dashboard estruturado em duas colunas Alinhadas */
 .dashboard-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 50px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* Coluna da esquerda — Identidade e Aplicação */
+.coluna-esquerda {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-top: 50px;
+    gap: 20px;
+    flex: 1;
 }
 
 /* Painel superior do relógio */
 .header-dashboard {
     text-align: center;
-    margin-bottom: 25px;
+    width: 100%;
+}
+
+/* Estilização do Logo da Marca */
+.logo-jenier {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.logo-jenier svg {
+    width: 32px;
+    height: 32px;
+}
+
+.logo-jenier span {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #63d8fc;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.logo-jenier span em {
+    color: #3b82f6;
+    font-style: normal;
 }
 
 #saudacao {
     color: #63d8fc;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 8px;
 }
 
+/* Relógio LED Azul Fluorescente Otimizado */
 .clock-panel {
     font-family: 'Orbitron', monospace;
     font-size: 3.2rem;
-    color: #39ff14; /* Verde limão clássico de LED */
-    text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
-    background: rgba(0, 0, 0, 0.3);
+    color: #00d4ff; 
+    text-shadow: 
+        0 0 8px rgba(0, 212, 255, 0.9),
+        0 0 20px rgba(0, 212, 255, 0.5),
+        0 0 40px rgba(0, 212, 255, 0.2);
+    background: rgba(0, 0, 0, 0.4);
     padding: 10px 25px;
     border-radius: 12px;
     display: inline-block;
-    border: 1px solid rgba(57, 255, 20, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    letter-spacing: 2px;
+}
+
+.data-display {
+    font-size: 0.8rem;
+    color: #64748b;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 8px;
 }
 
 /* Container azul original restaurado e centralizado */
 .container {
     background-color: #63d8fc;
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Alinhamento perfeito do Input, Mic e Botão Adicionar */
 .input-wrapper {
     display: flex;
     gap: 8px;
@@ -76,7 +125,7 @@ body {
 .input-task {
     border: none;
     border-radius: 5px;
-    flex: 1; /* Ocupa dinamicamente o espaço restante */
+    flex: 1; 
     height: 40px;
     padding-left: 12px;
     font-size: 15px;
@@ -114,13 +163,8 @@ body {
     transition: opacity 0.2s ease;
 }
 
-.button-add-task:hover {
-    opacity: 0.9;
-}
-
-.button-add-task:active {
-    opacity: 0.7;
-}
+.button-add-task:hover { opacity: 0.9; }
+.button-add-task:active { opacity: 0.7; }
 
 /* Lista de Tarefas */
 .list-tasks {
@@ -152,6 +196,8 @@ body {
     font-size: 16px;
     font-weight: 500;
     word-break: break-all;
+    flex: 1;
+    margin: 0 10px;
 }
 
 .task img {
@@ -174,77 +220,58 @@ body {
     color: #ffffff;
 }
 
-body{
-    background: url("/img/background.png");
+/* Coluna da direita — Espaço dos Personagens */
+.coluna-direita {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 350px;
 }
 
-.container {
-    background-color: #63d8fc;
-    width: 500px;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 100px auto 0;
-}
-
-.input-task {
-    border: none;
-    border-radius: 5px;
-    width: 300px;
-    height: 40px;
-    padding-left: 10px;
-}
-
-.button-add-task {
-    border: none;
-    border-radius: 5px;
-    height: 40px;
-    background-color: #003329;
-    color: #ffffff;
-    font-size: 17px;
-    padding: 0 15px;
-    float: right;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.button-add-task:hover {
-    opacity: 0.8;
-}
-
-.button-add-task:active {
-    opacity: 0.6;
-}
-
-.list-tasks {
+.personagens-container {
     width: 100%;
-    list-style: none;
-    margin-top: 30px;
-}
-
-.task {
-    background-color: #F2F2F2;
-    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
-    height: 50px;
+    height: 450px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    cursor: pointer;
+    justify-content: center;
 }
 
-img {
-    height: 25px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+.personagens-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 25px rgba(0, 212, 255, 0.25));
 }
 
-.task:hover img {
-    opacity: 1;
+.personagens-placeholder {
+    width: 100%;
+    height: 100%;
+    border: 2px dashed rgba(99, 216, 252, 0.25);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: rgba(99, 216, 252, 0.4);
+    font-size: 0.85rem;
+    text-align: center;
+    letter-spacing: 1px;
 }
 
-.done {
-    background-color: #8fac55;
-    text-decoration: line-through;
+/* Responsividade Adaptável */
+@media (max-width: 820px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 35px;
+    }
+    .coluna-direita {
+        flex: none;
+        width: 100%;
+    }
+    .personagens-container {
+        height: 300px;
+    }
 }
