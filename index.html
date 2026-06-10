@@ -2,27 +2,18 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Jenier Soluções</title>
+    <title>JenierSolucoes - Todo list</title>
 </head>
 <body>
 
-    <div class="logo-container">
-        <img src="img/fundo.png" alt="Logotipo" class="brand-logo">
-    </div>
+    <div class="container">
+        <input class="input-task" placeholder="O que tenho que fazer...">
+        <button class="button-add-task">Adicionar</button>
 
-    <div class="dashboard">
-        <header class="clock-panel">
-            <span id="relogio">00:00:00</span>
-        </header>
-
-        <section class="task-card">
-            <div class="input-area">
-                <input type="text" id="input-tarefa" placeholder="O que tenho que fazer...">
-                <button id="btn-adicionar">Adicionar</button>
-            </div>
-            <ul class="list-tasks"></ul>
-        </section>
+        <ul class="list-tasks">
+            </ul>
     </div>
 
     <script src="scripts.js"></script>
