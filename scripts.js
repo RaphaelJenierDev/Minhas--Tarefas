@@ -22,7 +22,6 @@ function salvarTarefas() {
 function adicionarNovaTarefa() {
     if (input.value.trim() === '') return; 
     
-    // Agora salvamos como objeto para permitir expansão futura
     minhaListaDeItens.push({
         tarefa: input.value,
         concluida: false
@@ -33,14 +32,16 @@ function adicionarNovaTarefa() {
     mostrarTarefas();
 }
 
-// --- 4. MOSTRAR TAREFAS (Versão única e correta) ---
+// --- 4. MOSTRAR TAREFAS (Com botões de ação) ---
 function mostrarTarefas() {
     let novaLi = '';
     
-    minhaListaDeItens.forEach((item) => {
+    minhaListaDeItens.forEach((item, posicao) => {
         novaLi += `
-            <li class="task">
+            <li class="task ${item.concluida ? 'done' : ''}">
+                <img src="./img/checked.png" alt="check" onclick="concluirTarefa(${posicao})">
                 <p>${item.tarefa}</p>
+                <img src="./img/trash.png" alt="lixo" onclick="deletarItem(${posicao})">
             </li>
         `;
     });
@@ -48,7 +49,20 @@ function mostrarTarefas() {
     listaCompleta.innerHTML = novaLi;
 }
 
-// --- 5. EVENTOS ---
+// --- 5. GESTÃO DE TAREFAS ---
+function concluirTarefa(posicao) {
+    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
+    salvarTarefas();
+    mostrarTarefas();
+}
+
+function deletarItem(posicao) {
+    minhaListaDeItens.splice(posicao, 1);
+    salvarTarefas();
+    mostrarTarefas();
+}
+
+// --- 6. EVENTOS ---
 button.addEventListener("click", adicionarNovaTarefa);
 
 input.addEventListener("keydown", (event) => {
