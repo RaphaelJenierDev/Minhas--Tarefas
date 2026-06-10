@@ -1,65 +1,57 @@
-const button = document.querySelector('.button-add-task')
-const input = document.querySelector('.input-task')
-const listaCompleta = document.querySelector('.list-tasks')
+const button = document.querySelector('.button-add-task');
+const input = document.querySelector('.input-task');
+const listaCompleta = document.querySelector('.list-tasks');
 
-let minhaListaDeItens = []
+let minhaListaDeItens = [];
 
+// Função que adiciona na memória e atualiza a tela
 function adicionarNovaTarefa() {
-  minhaListaDeItens.push({
-    tarefa: input.value,
-    concluida: false,
-  })
-
-  input.value = ''
-
-  mostrarTarefas()
+    if (input.value.trim() === '') return; // Não adiciona vazio
+    
+    minhaListaDeItens.push({
+        tarefa: input.value,
+        concluida: false
+    });
+    
+    input.value = ''; // Limpa o campo
+    mostrarTarefas();
 }
 
+// Função que desenha as tarefas na tela (o coração do projeto)
 function mostrarTarefas() {
-  let novaLi = ''
+    let novaLi = '';
 
-  // ['comprar café', 'estudar programação']
+    minhaListaDeItens.forEach((item, posicao) => {
+        novaLi += `
+            <li class="task ${item.concluida ? 'done' : ''}">
+                <img src="./img/checked.png" onclick="concluirTarefa(${posicao})">
+                <p>${item.tarefa}</p>
+                <img src="./img/trash.png" onclick="deletarItem(${posicao})">
+            </li>
+        `;
+    });
 
-  minhaListaDeItens.forEach((item, posicao) => {
-    novaLi =
-      novaLi +
-      `
-
-        <li class="task ${item.concluida && 'done'}">
-            <img src="./img/checked.png" alt="check-na-tarefa" onclick="concluirTarefa(${posicao})">
-            <p>${item.tarefa}</p>
-            <img src="./img/trash.png" alt="tarefa-para-o-lixo" onclick="deletarItem(${posicao})">
-        </li>
-        
-        `
-  })
-
-  listaCompleta.innerHTML = novaLi
-
-  localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
+    listaCompleta.innerHTML = novaLi;
 }
 
+// Função para marcar como concluída
 function concluirTarefa(posicao) {
-  minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida
-
-  mostrarTarefas()
+    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
+    mostrarTarefas();
 }
 
+// Função para deletar
 function deletarItem(posicao) {
-  minhaListaDeItens.splice(posicao, 1)
-
-  mostrarTarefas()
+    minhaListaDeItens.splice(posicao, 1);
+    mostrarTarefas();
 }
 
-function recarregarTarefas() {
-  const tarefasDoLocalStorage = localStorage.getItem('lista')
+// Evento do clique no botão
+button.addEventListener("click", adicionarNovaTarefa);
 
-  if (tarefasDoLocalStorage) {
-    minhaListaDeItens = JSON.parse(tarefasDoLocalStorage)
-  }
-
-  mostrarTarefas()
-}
-
-recarregarTarefas()
-button.addEventListener('click', adicionarNovaTarefa)
+// Evento do Enter no teclado
+input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        adicionarNovaTarefa();
+    }
+});
