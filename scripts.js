@@ -60,58 +60,6 @@ function recarregarTarefas() {
 
   mostrarTarefas()
 }
-// --- Lógica do Relógio ---
-function atualizarRelogio() {
-    const agora = new Date();
-    document.getElementById('relogio').textContent = agora.toLocaleTimeString();
-}
-setInterval(atualizarRelogio, 1000);
-atualizarRelogio();
 
-// --- Lógica do Microfone (Web Speech API) ---
-const btnMic = document.getElementById('btn-mic');
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-if (SpeechRecognition) {
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'pt-BR';
-
-    btnMic.addEventListener('click', () => {
-        recognition.start();
-        btnMic.style.backgroundColor = 'red'; // Feedback visual de gravação
-    });
-
-    recognition.onresult = (event) => {
-        const transcricao = event.results[0][0].transcript;
-        input.value = transcricao;
-        btnMic.style.backgroundColor = '#003329';
-    };
-
-    recognition.onend = () => {
-        btnMic.style.backgroundColor = '#003329';
-    };
-} else {
-    btnMic.style.display = 'none'; // Esconde se o navegador não suportar
-    alert("Seu navegador não suporta reconhecimento de voz.");
-}
-function atualizarPainel() {
-    const agora = new Date();
-    const hora = agora.getHours();
-    const saudacao = document.getElementById('saudacao');
-    
-    // Atualiza o relógio
-    document.getElementById('relogio').textContent = agora.toLocaleTimeString();
-
-    // Lógica da saudação personalizada
-    if (hora >= 5 && hora < 12) {
-        saudacao.textContent = "Bom dia, vamos começar!";
-    } else if (hora >= 12 && hora < 18) {
-        saudacao.textContent = "Boa tarde, foco total!";
-    } else {
-        saudacao.textContent = "Boa noite, hora de planejar!";
-    }
-}
-setInterval(atualizarPainel, 1000);
-atualizarPainel();
 recarregarTarefas()
 button.addEventListener('click', adicionarNovaTarefa)
