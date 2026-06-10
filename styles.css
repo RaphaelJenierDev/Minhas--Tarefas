@@ -1,251 +1,35 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Roboto',sans-serif;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+
+body { 
+    min-height: 100vh; display: flex; justify-content: center; align-items: center; 
+    background: linear-gradient(135deg, #021726, #03243b, #00111d); overflow-x: hidden;
 }
 
-body{
+.dashboard { width: 900px; position: relative; margin-top: 50px; }
 
-min-height:100vh;
+.clock-header { display: flex; justify-content: center; margin-bottom: 25px; }
+.clock-box { display: flex; align-items: center; gap: 15px; }
 
-display:flex;
-justify-content:center;
-align-items:center;
+#relogio { color: white; font-size: 72px; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 15px #4ddfff; }
 
-background:
-linear-gradient(
-135deg,
-#011423,
-#04243b,
-#00131f
-);
+.period-box { display: flex; flex-direction: column; }
+#periodo { color: white; font-size: 22px; font-weight: bold; }
+.pulse { width: 18px; height: 18px; border-radius: 50%; background: #5cecff; box-shadow: 0 0 20px #5cecff; }
 
-overflow:hidden;
+.task-card { 
+    position: relative; background: rgba(125, 223, 255, 0.18); backdrop-filter: blur(20px); 
+    border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 40px; box-shadow: 0 0 40px rgba(77, 223, 255, 0.35);
 }
 
-.dashboard{
+.photo-wrapper { position: absolute; right: -80px; top: -60px; }
+.photo-team { width: 220px; height: 220px; border-radius: 50%; object-fit: cover; border: 5px solid #89eeff; box-shadow: 0 0 40px #89eeff; }
 
-width:900px;
-position:relative;
-}
+.input-area { display: flex; gap: 15px; margin-bottom: 20px; }
+.input-task { flex: 1; height: 55px; border: none; border-radius: 12px; padding-left: 20px; }
+.button-add-task { width: 160px; border: none; border-radius: 12px; background: #003329; color: white; font-weight: bold; cursor: pointer; }
 
-.clock-container{
+.filters { display: flex; gap: 10px; margin-bottom: 20px; }
+.filters button { background: #003329; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
 
-display:flex;
-justify-content:center;
-
-margin-bottom:30px;
-}
-
-.clock-wrapper{
-
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-#relogio{
-
-font-family:'Orbitron',sans-serif;
-
-font-size:72px;
-
-color:white;
-
-text-shadow:
-0 0 10px #6de9ff,
-0 0 20px #6de9ff,
-0 0 40px #6de9ff;
-}
-
-.clock-info{
-
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-#periodo{
-
-color:white;
-
-font-weight:bold;
-
-font-size:20px;
-}
-
-.status-dot{
-
-width:18px;
-height:18px;
-
-border-radius:50%;
-
-background:#68ecff;
-
-margin-top:5px;
-
-box-shadow:
-0 0 10px #68ecff,
-0 0 25px #68ecff,
-0 0 45px #68ecff;
-}
-
-.task-card{
-
-position:relative;
-
-padding:40px;
-
-border-radius:25px;
-
-background:
-rgba(105,220,255,.15);
-
-backdrop-filter:blur(15px);
-
-border:1px solid rgba(255,255,255,.15);
-
-box-shadow:
-0 0 40px rgba(80,220,255,.4);
-}
-
-.team-circle{
-
-position:absolute;
-
-right:-90px;
-top:-70px;
-}
-
-.team-circle img{
-
-width:230px;
-height:230px;
-
-border-radius:50%;
-
-border:5px solid #85eeff;
-
-object-fit:cover;
-
-box-shadow:
-0 0 20px #85eeff,
-0 0 40px #85eeff,
-0 0 80px #85eeff;
-}
-
-.input-area{
-
-display:flex;
-gap:15px;
-
-margin-bottom:20px;
-}
-
-.input-task{
-
-flex:1;
-
-height:55px;
-
-border:none;
-
-border-radius:10px;
-
-padding-left:15px;
-
-font-size:16px;
-}
-
-.button-add-task{
-
-width:170px;
-
-border:none;
-
-border-radius:10px;
-
-background:#003329;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:.3s;
-}
-
-.button-add-task:hover{
-
-transform:scale(1.05);
-}
-
-.filters{
-
-display:flex;
-gap:10px;
-
-margin-bottom:20px;
-}
-
-.filters button{
-
-padding:10px 20px;
-
-border:none;
-
-border-radius:8px;
-
-background:#003329;
-
-color:white;
-
-cursor:pointer;
-}
-
-.list-tasks{
-
-list-style:none;
-}
-
-.task{
-
-background:white;
-
-border-radius:12px;
-
-padding:15px;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:12px;
-}
-
-.task p{
-
-flex:1;
-margin-left:15px;
-}
-
-.task img{
-
-width:24px;
-cursor:pointer;
-}
-
-.done{
-
-background:#92c25c;
-}
-
-.done p{
-
-text-decoration:line-through;
-}
+.task { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.done { background-color: #8fac55; text-decoration: line-through; }
