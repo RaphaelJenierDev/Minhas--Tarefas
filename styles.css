@@ -1,8 +1,17 @@
+/* Limpeza geral */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body { background: #021726; display: flex; justify-content: center; padding-top: 50px; font-family: sans-serif; }
+
 .container { background: white; width: 400px; padding: 20px; border-radius: 8px; }
+
 .input-task { width: 70%; height: 40px; padding-left: 10px; }
+
 .button-add-task { width: 25%; height: 40px; background: #003329; color: white; border: none; cursor: pointer; }
+
 .list-tasks { list-style: none; margin-top: 20px; }
+
 .task { background: #fff; padding: 10px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; }
-/* ESTA LINHA ABAIXO É O QUE VAI CORRIGIR OS ÍCONES GIGANTES */
+
+/* A correção dos ícones gigantes está aqui */
 .task img { width: 25px; height: 25px; cursor: pointer; }
