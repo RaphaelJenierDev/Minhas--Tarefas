@@ -1,103 +1,48 @@
-const button = document.querySelector('.button-add-task')
-const input = document.querySelector('.input-task')
-const listaCompleta = document.querySelector('.list-tasks')
-
-let minhaListaDeItens = []
-
-// --- LÓGICA DE GERENCIAMENTO DE TAREFAS ---
-function adicionarNovaTarefa() {
-    if (input.value.trim() === '') return; 
-    
-    minhaListaDeItens.push({
-        tarefa: input.value,
-        concluida: false,
-    })
-    
-    input.value = ''
-    mostrarTarefas()
-}
-
-function mostrarTarefas() {
-    let novaLi = ''
-    
-    minhaListaDeItens.forEach((item, posicao) => {
-        novaLi += `
-            <li class="task ${item.concluida ? 'done' : ''}">
-                <img src="./img/checked.png" alt="check-na-tarefa" onclick="concluirTarefa(${posicao})">
-                <p>${item.tarefa}</p>
-                <img src="./img/trash.png" alt="tarefa-para-o-lixo" onclick="deletarItem(${posicao})">
-            </li>
-        `
-    })
-    
-    listaCompleta.innerHTML = novaLi
-    localStorage.setItem('lista', JSON.stringify(minhaListaDeItens))
-    
-    atualizarConsultor()
-}
-
-function concluirTarefa(posicao) {
-    minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida
-    mostrarTarefas()
-}
-
-function deletarItem(posicao) {
-    minhaListaDeItens.splice(posicao, 1)
-    mostrarTarefas()
-}
-
-function recarregarTarefas() {
-    const tarefasDoLocalStorage = localStorage.getItem('lista')
-    if (tarefasDoLocalStorage) {
-        minhaListaDeItens = JSON.parse(tarefasDoLocalStorage)
-    }
-    mostrarTarefas()
-}
-
-// --- 🧭 ENGINE DE ALTA PRECISÃO SEMÂNTICA ---
+// --- 🧭 ENGINE DE ALTA PRECISÃO MULTI-CONTEXTO (RESOLÇÃO DE CONCORRÊNCIA) ---
 function atualizarConsultor() {
     const feedbackText = document.getElementById('consultor-feedback');
     if (!feedbackText) return;
 
     let totalAtivas = 0;
     
-    // Inicializamos as variáveis de detecção
-    let detectouFamilia = false;
-    let detectouSuperao = false;
-    let detectouTrabalho = false;
-    let detectouEstudo = false;
-    let detectouPrincipios = false;
-    let detectouSaude = false;
+    // Contadores para entender a volumetria e o peso do dia
+    let focos = {
+        familia: false,
+        superao: false,
+        trabalho: false,
+        estudo: false,
+        principios: false,
+        saude: false
+    };
 
-    // REGEX ULTRA SENSÍVEIS (Capturam variações e palavras-chave isoladas)
+    // REGEX ULTRA SENSÍVEIS
     const regexFamilia = /(m[aã]e|mamy|abra[çc]|afeto|sentimento|fam[íi]li|carinh|visita|mãe)/i;
     const regexSuperao = /(supera|dif[íi]cil|venc|firme|for[çc]|desist|corag|aguent|crise|press[ão]|pressao|cansad)/i;
     const regexTrabalho = /(trabalh|client|freela|servi[cç]|palestra|jeni[eê]r|site|proposta|venda|fechar|contrat|sprint|backlog|scrum|meeting|reuni[ão]|clickup|faturam|revis[ão]|deploy)/i;
-    const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp)/i;
-    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé)/i;
-    const regexSaude = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida)/i;
+    const regexEstudo = /(est[ud]|ingl[eê]s|c[oó]dig|cursor|vibe|dev|aula|facul|gradua|aprend|labs|research|refator|poc|documenta|bootcamp|estydar)/i;
+    const regexPrincipios = /(igreja|celula|celu[cç]a|culto|oraci|pastor|comunh|deus|jesus|fé|irm[ão]s|orando)/i;
+    const regexSaude = /(a[cç]ucar|comprar|mercado|deliver|ifood|comida|treino|acad|moto|corrida|entrega)/i;
 
-    // Escaneamento prioritário
+    // Escaneamento de todas as tarefas ativas sem perder nenhuma informação
     minhaListaDeItens.forEach(item => {
         if (!item.concluida) {
             totalAtivas++;
             const texto = item.tarefa;
             
-            // Ativamos as flags baseadas no texto digitado
-            if (regexFamilia.test(texto)) detectouFamilia = true;
-            if (regexSuperao.test(texto)) detectouSuperao = true;
-            if (regexTrabalho.test(texto)) detectouTrabalho = true;
-            if (regexEstudo.test(texto)) detectouEstudo = true;
-            if (regexPrincipios.test(texto)) detectouPrincipios = true;
-            if (regexSaude.test(texto)) detectouSaude = true;
+            if (regexFamilia.test(texto)) focos.familia = true;
+            if (regexSuperao.test(texto)) focos.superao = true;
+            if (regexTrabalho.test(texto)) focos.trabalho = true;
+            if (regexEstudo.test(texto)) focos.estudo = true;
+            if (regexPrincipios.test(texto)) focos.principios = true;
+            if (regexSaude.test(texto)) focos.saude = true;
         }
     });
 
-    // MATRIZ DE DIRECIONAMENTO E CONSELHOS CORPORATIVOS
+    // BANCO DE DADOS DE SABEDORIA MATRIX
     const MatrizSabedoria = {
         quadroLimpo: {
             titulo: "🎯 SPRINT LOG: Backlog Zerado",
-            conselho: "Seu quadro está limpo. No framework Scrum, isso significa que a meta da Sprint foi atingida com sucesso. Use este vácuo operacional para planejar o seu próximo ciclo de faturamento macro na Jenier.",
+            conselho: "Seu quadro está limpo. No framework Scrum, isso significa que a meta da Sprint foi atingida com sucesso. Use este vácuo operacional para planejar o seu próximo salto estratégico de faturamento macro na Jenier.",
             versiculo: "<strong>Provérbios 16:3</strong> - 'Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos.'",
             borda: "#00d4ff33", textoCor: "#00d4ff"
         },
@@ -109,20 +54,26 @@ function atualizarConsultor() {
         },
         familia: {
             titulo: "❤️ BLOCKER REMOVED: Conexão Vital e Honra",
-            conselho: "<strong>Direcionamento Executivo:</strong> Nenhum resultado profissional justifica o sacrifício da base. Estar com sua mãe e nutrir as relações de afeto verdadeiro protege a sua inteligência emocional a longo prazo. Deixe as ferramentas de gerenciamento de lado e viva o momento presente com foco total nesse abraço.",
+            conselho: "<strong>Direcionamento Executivo:</strong> Mesmo com a esteira cheia, o pilar de afeto e honra com sua mãe é inegociável. A pressa do mercado não pode invadir o ambiente familiar. Desconecte das ferramentas de gerenciamento por um momento e esteja 100% presente para recarregar sua inteligência emocional.",
             versiculo: "<strong>Provérbios 23:22b</strong> - '...e não despreze a sua mãe quando ela envelhecer.'",
             borda: "#ff4d6d77", textoCor: "#ff758f"
         },
         superao: {
             titulo: "⚡ CRISIS MANAGEMENT: Resiliência Ativa",
-            conselho: "<strong>Direcionamento Executivo:</strong> Gargalos e impedimentos complexos aparecem em qualquer projeto de tecnologia ou transição. A postura de um consultor sênior é isolar as variáveis emocionais e focar exclusivamente na solução do problema mais imediato. Você tem capacidade técnica e resiliência para vencer.",
-            versiculo: "<strong>Josué 1:9</strong> - 'Não fui eu que ordenei a você? Seja forte e corajoso! Não se apavore nem desanime, pois o Senhor, o seu Deus, estará com você por onde você andar.'",
+            conselho: "<strong>Direcionamento Executivo:</strong> Identifiquei tarefas de alta pressão na sua fila. A postura de um consultor sênior é isolar as variáveis emocionais do estresse e focar no próximo Bloco de Execução. Mantenha a cabeça fria e os pés firmes.",
+            versiculo: "<strong>Josué 1:9</strong> - 'Não fui eu que ordenei a você? Seja forte e corajoso! Não se apavore nem desanime...'",
             borda: "#ffeed155", textoCor: "#ffd166"
+        },
+        multiTrabalhoEstudo: {
+            titulo: "🔀 DUAL CORE: SPRINT & LABORATÓRIO ACCEL",
+            conselho: "<strong>Direcionamento Executivo:</strong> Você está equilibrando o faturamento imediato (ClickUp/Propostas) com o desenvolvimento de Know-How técnico (Cursor/Estudos). Isso exige alta energia cognitiva. Divida seu dia em blocos rígidos de tempo (Timeboxing) para evitar a estafa mental de mudar de foco a todo momento.",
+            versiculo: "<strong>Provérbios 13:4</strong> - 'O preguiçoso deseja e nada consegue, mas os desejos do diligente são amplamente satisfeitos.'",
+            borda: "#00f5d477", textoCor: "#00f5d4"
         },
         trabalho: {
             titulo: "💼 SPRINT ACTIVE: Foco no Faturamento",
             conselho: "<strong>Direcionamento Executivo:</strong> Você possui itens de alta prioridade na sua esteira de produção corporativa (Sprint Ativa). Como um estrategista de negócios, execute cada entrega focando no valor final entregue ao cliente, minimizando o desperdício de tempo e organizando o fluxo no ClickUp.",
-            versiculo: "<strong>Provérbios 22:29</strong> - 'Você já viu um homem talentoso no seu trabalho? Ele servirá diante de reis; não servirá diante de homens obscuros.'",
+            versiculo: "<strong>Provérbios 22:29</strong> - 'Você já viu um homem talentoso no seu trabalho? Ele servirá diante de reis...'",
             borda: "#00d4ffaa", textoCor: "#00d4ff"
         },
         estudo: {
@@ -133,25 +84,25 @@ function atualizarConsultor() {
         },
         principios: {
             titulo: "🛡️ COMPASS REALIGNMENT: Alinhamento de Bússola",
-            conselho: "<strong>Direcionamento Executivo:</strong> Momento de desconectar do fluxo ágil de produção para recalibrar a sua governança espiritual. O ambiente de comunhão na igreja/célula e a oração atuam como um regulador mental essencial, limpando os excessos e blindando o seu propósito de vida.",
-            versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias; correm e não ficam exaustos, andam e não se cansam.'",
+            conselho: "<strong>Direcionamento Executivo:</strong> Há espaço reservado para renovação espiritual na sua agenda hoje (Igreja/Célula). Use este tempo para desacelerar o ritmo frenético do trânsito e do mercado. Deixar o trabalho na porta e orar renova a mente contra pressões externas.",
+            versiculo: "<strong>Isaías 40:31</strong> - 'Mas aqueles que esperam no Senhor renovam as suas forças. Voam alto como águias...'",
             borda: "#9d4edd77", textoCor: "#c8b6ff"
         },
         saudeRotina: {
             titulo: "🍏 LOGISTICS & HARDWARE: Proteção do Ativo",
-            conselho: "<strong>Direcionamento Executivo:</strong> As tarefas operacionais de logística exigem gerenciamento rigoroso de riscos. O seu corpo é a infraestrutura física onde os seus softwares rodam. Mantenha-se hidratado, faça pausas adequadas e não comprometa a sua segurança por pressa.",
+            conselho: "<strong>Direcionamento Executivo:</strong> Suas tarefas operacionais ou rotas de delivery exigem energia física. O seu corpo é a infraestrutura mecânica onde a sua agência roda. Gerencie os riscos, pilote com segurança e não comprometa sua saúde pela pressa de chegar.",
             versiculo: "<strong>Provérbios 4:23</strong> - 'Acima de tudo que se deve guardar, guarde o seu coração, pois dele procedem as fontes da vida.'",
             borda: "#ffb70377", textoCor: "#ffb703"
         },
         geral: {
-            titulo: "🧭 BACKLOG OVERVIEW: Ordenação de Fluxo",
-            conselho: "<strong>Direcionamento Executivo:</strong> Múltiplas demandas na fila. Mantenha a disciplina de focar em uma tarefa por vez para evitar perda de desempenho por alternância de contexto (Context Switching). Siga a ordem do seu planejamento.",
+            titulo: "🧭 MULTI-TASKING: Balanceamento de Backlog",
+            conselho: "<strong>Direcionamento Executivo:</strong> Você está cruzando múltiplos pilares hoje (Operação, Estudo e Logística de Rua). Para não quebrar o ritmo, siga o framework Scrum à risca: ordene por prioridade financeira e execute rigorosamente uma por uma, blindando sua mente contra distrações.",
             versiculo: "<strong>Salmos 37:5</strong> - 'Entregue o seu caminho ao Senhor; confie nele, e ele agirá.'",
             borda: "#ffffff22", textoCor: "#ffffff"
         }
     };
 
-    // HIERARQUIA DE DECISÃO ABSOLUTA (Garante o casamento exato de conselho + versículo)
+    // LOGICA DE SÍNTESE INTELIGENTE (Resolve o conflito de múltiplas tarefas acumuladas)
     let selecionado = MatrizSabedoria.geral;
     
     if (minhaListaDeItens.length === 0) {
@@ -159,16 +110,23 @@ function atualizarConsultor() {
     } else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
         selecionado = MatrizSabedoria.sucessoTotal;
     } else {
-        // Hierarquia rígida: Afeto familiar e Superação quebram qualquer regra geral ou técnica
-        if (detectouFamilia) selecionado = MatrizSabedoria.familia;
-        else if (detectouSuperao) selecionado = MatrizSabedoria.superao;
-        else if (detectouTrabalho) selecionado = MatrizSabedoria.trabalho;
-        else if (detectouEstudo) selecionado = MatrizSabedoria.estudo;
-        else if (detectouPrincipios) selecionado = MatrizSabedoria.principios;
-        else if (detectouSaude) selecionado = MatrizSabedoria.saudeRotina;
+        // Regra de Ouro 1: Se envolve mãe/afeto, assume prioridade emocional total sobre a esteira de código
+        if (focos.familia) selecionado = MatrizSabedoria.familia;
+        
+        // Regra de Ouro 2: Se envolve crise/superação, entra no gerenciamento de crise
+        else if (focos.superao) selecionado = MatrizSabedoria.superao;
+        
+        // Regra de Ouro 3: Se tem Trabalho E Estudo ATIVOS juntos, ele ativa o modo híbrido corporativo (DUAL CORE)
+        else if (focos.trabalho && focos.estudo) selecionado = MatrizSabedoria.multiTrabalhoEstudo;
+        
+        // Regras Lineares se o dia estiver concentrado em um único bloco de ação
+        else if (focos.trabalho) selecionado = MatrizSabedoria.trabalho;
+        else if (focos.estudo) selecionado = MatrizSabedoria.estudo;
+        else if (focos.principios) selecionado = MatrizSabedoria.principios;
+        else if (focos.saude) selecionado = MatrizSabedoria.saudeRotina;
     }
 
-    // Renderização com tags estruturadas
+    // Renderização final com a estrutura hierárquica atualizada
     feedbackText.innerHTML = `
         <span style="font-weight: 700; color: ${selecionado.textoCor}; display: block; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.8px; text-transform: uppercase;">${selecionado.titulo}</span>
         <span style="display: block; margin-bottom: 12px; color: #e2e8f0; font-size: 13px; line-height: 1.5; font-style: normal;">${selecionado.conselho}</span>
@@ -179,84 +137,3 @@ function atualizarConsultor() {
     `;
     feedbackText.parentElement.style.borderColor = selecionado.borda;
 }
-
-// --- LÓGICA DO RELÓGIO LED INTELIGENTE E DATA ---
-function gerenciarPainelSuperior() {
-    const agora = new Date()
-    const hora = agora.getHours()
-    const relogioElemento = document.getElementById('relogio')
-    const saudacaoElemento = document.getElementById('saudacao')
-    const dataElemento = document.getElementById('data-display')
-
-    if (relogioElemento) {
-        relogioElemento.textContent = agora.toLocaleTimeString('pt-BR')
-    }
-
-    if (dataElemento) {
-        const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
-        const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
-        
-        const diaSemana = diasSemana[agora.getDay()]
-        const dia = String(agora.getDate()).padStart(2, '0')
-        const mes = meses[agora.getMonth()]
-        const ano = agora.getFullYear()
-        
-        dataElemento.textContent = `${diaSemana}, ${dia} ${mes} ${ano}`
-    }
-
-    if (saudacaoElemento) {
-        if (hora >= 5 && hora < 12) {
-            saudacaoElemento.textContent = "☀️ Bom dia, Executivo!"
-        } else if (hora >= 12 && hora < 18) {
-            saudacaoElemento.textContent = "💡 Boa tarde, foco total!"
-        } else {
-            saudacaoElemento.textContent = "🌙 Boa noite, planejamento ativo!"
-        }
-    }
-}
-
-// --- LÓGICA DE RECONHECIMENTO DE VOZ (MICROFONE) ---
-const btnMic = document.getElementById('btn-mic')
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-
-if (SpeechRecognition) {
-    const recognition = new SpeechRecognition()
-    recognition.lang = 'pt-BR'
-    recognition.continuous = false
-    recognition.interimResults = false
-
-    btnMic.addEventListener('click', () => {
-        recognition.start()
-        btnMic.style.backgroundColor = '#ff3b30' 
-        btnMic.textContent = "🛑"
-    })
-
-    recognition.onresult = (event) => {
-        const transcricao = event.results[0][0].transcript
-        input.value = transcricao.replace(/\.$/g, '') 
-    }
-
-    recognition.onend = () => {
-        btnMic.style.backgroundColor = '#003329' 
-        btnMic.textContent = "🎤"
-    }
-
-    recognition.onerror = () => {
-        btnMic.style.backgroundColor = '#003329'
-        btnMic.textContent = "🎤"
-    }
-} else {
-    btnMic.style.display = 'none'
-}
-
-// --- INICIALIZAÇÃO DO SISTEMA ---
-recarregarTarefas()
-gerenciarPainelSuperior() 
-setInterval(gerenciarPainelSuperior, 1000) 
-
-button.addEventListener('click', adicionarNovaTarefa)
-input.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        adicionarNovaTarefa()
-    }
-})
