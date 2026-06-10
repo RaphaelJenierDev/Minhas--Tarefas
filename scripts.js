@@ -18,15 +18,20 @@ function salvarTarefas() {
     localStorage.setItem('lista', JSON.stringify(minhaListaDeItens));
 }
 
-// --- 3. ADICIONAR TAREFA ---
-function adicionarNovaTarefa() {
-    if (input.value.trim() === '') return; // Previne adicionar vazio
-    
-    minhaListaDeItens.push(input.value);
-    input.value = '';
-    
-    salvarTarefas(); // Salva toda vez que adiciona
-    mostrarTarefas();
+function mostrarTarefas() {
+    let novaLi = '';
+
+    minhaListaDeItens.forEach((item) => {
+        // AQUI ESTÁ A MUDANÇA: usamos item.tarefa
+        // Antes estava apenas ${item}, agora está ${item.tarefa}
+        novaLi += `
+            <li class="task">
+                <p>${item.tarefa}</p>
+            </li>
+        `;
+    });
+
+    listaCompleta.innerHTML = novaLi;
 }
 
 // --- 4. MOSTRAR TAREFAS NA TELA ---
