@@ -47,3 +47,30 @@
     border-radius: 5px;
     font-weight: bold;
 }
+/* Container do Relógio com efeito LED suave */
+.header-dashboard {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#saudacao {
+    color: #63d8fc;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.clock-panel {
+    font-family: 'Orbitron', monospace; /* Fonte tech */
+    font-size: 3.5rem;
+    color: #00ffcc; /* Verde ciano LED */
+    text-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+/* Esconde o rodapé poluidor */
+.footer-text { display: none !important; }
