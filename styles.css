@@ -1,17 +1,15 @@
-body { background: #021726; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+body { background: #021726; display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: sans-serif; }
 
-/* Logo com tamanho controlado */
-.logo-container { margin-bottom: 10px; }
-.brand-logo { width: 120px; height: auto; } 
+.brand-logo { width: 150px; height: auto; margin-bottom: 20px; }
 
-/* Relógio com tamanho ajustado */
-.clock-panel { color: white; text-align: center; font-size: 2.5rem; margin-bottom: 20px; font-family: 'Orbitron', sans-serif; }
+.dashboard { width: 400px; }
+.clock-panel { color: white; text-align: center; font-size: 30px; margin-bottom: 20px; font-family: monospace; }
 
-.dashboard { width: 450px; }
 .task-card { background: #63d8fc; padding: 20px; border-radius: 10px; }
-
-.task { background: white; padding: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border-radius: 5px; }
-.task img { width: 25px; height: 25px; cursor: pointer; }
 .input-area { display: flex; gap: 5px; margin-bottom: 15px; }
-.input-task { flex: 1; height: 35px; border: none; padding: 5px; border-radius: 5px; }
-.button-add-task { background: #003329; color: white; border: none; padding: 5px 15px; cursor: pointer; border-radius: 5px; }
+#campo-tarefa { flex: 1; height: 35px; border-radius: 5px; border: none; padding-left: 10px; }
+#btn-adicionar { background: #003329; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+
+.list-tasks { list-style: none; }
+.task { background: white; padding: 10px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
+.task img { width: 20px; cursor: pointer; }
