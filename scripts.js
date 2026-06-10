@@ -163,7 +163,7 @@ function atualizarConsultor() {
         }
     };
 
-    // PROCESSAMENTO DINÂMICO DE HIERARQUIA (CORRIGIDO)
+   // PROCESSAMENTO DINÂMICO DE HIERARQUIA MODERNO (FLUIDO E SEM TRAVAS)
     let selecionado = MatrizSabedoria.geral;
     
     if (minhaListaDeItens.length === 0) {
@@ -171,14 +171,18 @@ function atualizarConsultor() {
     } else if (totalAtivas === 0 && minhaListaDeItens.length > 0) {
         selecionado = MatrizSabedoria.sucessoTotal;
     } else {
-        // Se a volumetria da igreja for dominante (como no cenário real de 4 tarefas), ela ganha o foco
-        if (detectou.principios && contagemPrincipios >= 2) {
+        // 1. Se o dia está muito misturado (Mãe + Trabalho ou Estudo ativos ao mesmo tempo), entramos no modo Geral/Híbrido para não travar
+        if (detectou.familia && (detectou.trabalho || detectou.estudo || detectou.principios)) {
+            selecionado = MatrizSabedoria.geral;
+        }
+        // 2. Se a volumetria da igreja for dominante, ela assume
+        else if (detectou.principios && contagemPrincipios >= 2) {
             selecionado = MatrizSabedoria.principios;
         }
-        // Hierarquia de proteção lógica equilibrada
+        // 3. Casos isolados ou combinados sem conflito de prioridade
         else if (detectou.familia) selecionado = MatrizSabedoria.familia;
         else if (detectou.superao) selecionado = MatrizSabedoria.superao;
-        else if (detectou.trabalho && detectou.estudo) selecionado = MatrizSabedoria.multiTrabalhoEstudo; // Corrigido aqui!
+        else if (detectou.trabalho && detectou.estudo) selecionado = MatrizSabedoria.multiTrabalhoEstudo;
         else if (detectou.trabalho) selecionado = MatrizSabedoria.trabalho;
         else if (detectou.estudo) selecionado = MatrizSabedoria.estudo;
         else if (detectou.principios) selecionado = MatrizSabedoria.principios;
