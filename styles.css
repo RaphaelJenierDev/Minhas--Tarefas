@@ -5,6 +5,173 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     outline: none;
+}* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+}
+
+body {
+    background: url("/img/background.png") no-repeat center center fixed;
+    background-size: cover;
+    background-color: #0d1b2a; /* Fallback caso a imagem falhe */
+    min-height: 100vh;
+}
+
+/* Centralizador do ecossistema do Dashboard */
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+/* Painel superior do relógio */
+.header-dashboard {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#saudacao {
+    color: #63d8fc;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.clock-panel {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.2rem;
+    color: #39ff14; /* Verde limão clássico de LED */
+    text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 25px;
+    border-radius: 12px;
+    display: inline-block;
+    border: 1px solid rgba(57, 255, 20, 0.2);
+}
+
+/* Container azul original restaurado e centralizado */
+.container {
+    background-color: #63d8fc;
+    width: 500px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Alinhamento perfeito do Input, Mic e Botão Adicionar */
+.input-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+.input-task {
+    border: none;
+    border-radius: 5px;
+    flex: 1; /* Ocupa dinamicamente o espaço restante */
+    height: 40px;
+    padding-left: 12px;
+    font-size: 15px;
+}
+
+#btn-mic {
+    background-color: #003329;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    width: 45px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+#btn-mic:hover {
+    background-color: #004d3e;
+}
+
+.button-add-task {
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    background-color: #003329;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 0 18px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: opacity 0.2s ease;
+}
+
+.button-add-task:hover {
+    opacity: 0.9;
+}
+
+.button-add-task:active {
+    opacity: 0.7;
+}
+
+/* Lista de Tarefas */
+.list-tasks {
+    width: 100%;
+    list-style: none;
+    margin-top: 25px;
+}
+
+.task {
+    background-color: #F2F2F2;
+    box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.15);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.task:hover {
+    transform: translateY(-2px);
+}
+
+.task p {
+    color: #333333;
+    font-size: 16px;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.task img {
+    height: 22px;
+    width: 22px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.task:hover img {
+    opacity: 1;
+}
+
+.done {
+    background-color: #8fac55;
+    text-decoration: line-through;
+}
+
+.done p {
+    color: #ffffff;
 }
 
 body{
