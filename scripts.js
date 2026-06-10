@@ -5,6 +5,7 @@ const listaCompleta = document.querySelector('.list-tasks');
 
 // --- ARMAZÉM DE DADOS ---
 let minhaListaDeItens = [];
+let filtroAtual = 'todas'; // 'todas' ou 'pendentes'
 
 // --- 1. CARREGAR AO ABRIR ---
 const tarefasDoLocalStorage = localStorage.getItem('lista');
@@ -20,7 +21,7 @@ function salvarTarefas() {
 
 // --- 3. ADICIONAR TAREFA ---
 function adicionarNovaTarefa() {
-    if (input.value.trim() === '') return; 
+    if (input.value.trim() === '') return;
     
     minhaListaDeItens.push({
         tarefa: input.value,
@@ -32,11 +33,22 @@ function adicionarNovaTarefa() {
     mostrarTarefas();
 }
 
-// --- 4. MOSTRAR TAREFAS (Com botões de ação) ---
+// --- 4. FILTRAR TAREFAS ---
+function filtrarTarefas(tipo) {
+    filtroAtual = tipo;
+    mostrarTarefas();
+}
+
+// --- 5. MOSTRAR TAREFAS (Com lógica de filtro) ---
 function mostrarTarefas() {
     let novaLi = '';
     
     minhaListaDeItens.forEach((item, posicao) => {
+        // Lógica: se o filtro for 'pendentes', só exibe se não estiver concluída
+        if (filtroAtual === 'pendentes' && item.concluida) {
+            return; // Pula este item
+        }
+
         novaLi += `
             <li class="task ${item.concluida ? 'done' : ''}">
                 <img src="./img/checked.png" alt="check" onclick="concluirTarefa(${posicao})">
@@ -49,7 +61,7 @@ function mostrarTarefas() {
     listaCompleta.innerHTML = novaLi;
 }
 
-// --- 5. GESTÃO DE TAREFAS ---
+// --- 6. AÇÕES DE GESTÃO ---
 function concluirTarefa(posicao) {
     minhaListaDeItens[posicao].concluida = !minhaListaDeItens[posicao].concluida;
     salvarTarefas();
@@ -62,11 +74,9 @@ function deletarItem(posicao) {
     mostrarTarefas();
 }
 
-// --- 6. EVENTOS ---
+// --- 7. EVENTOS ---
 button.addEventListener("click", adicionarNovaTarefa);
 
 input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        adicionarNovaTarefa();
-    }
+    if (event.key === "Enter") adicionarNovaTarefa();
 });
